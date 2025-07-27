@@ -1,0 +1,20 @@
+import React from 'react';
+
+interface LoadingSpinnerProps {
+  size?: 'sm' | 'md' | 'lg';
+  color?: string;
+}
+
+export default function LoadingSpinner({ size = 'md', color = 'primary' }: LoadingSpinnerProps) {
+  const sizeClasses = {
+    sm: 'w-4 h-4',
+    md: 'w-6 h-6',
+    lg: 'w-8 h-8'
+  };
+
+  return (
+    <div className={`${sizeClasses[size]} animate-spin`}>
+      <div className={`w-full h-full border-2 border-${color}-200 dark:border-${color}-800 border-t-${color}-600 rounded-full`}></div>
+    </div>
+  );
+}

@@ -1,0 +1,25 @@
+{
+  "name": "ExotIQ.ai - Fleet Management Platform",
+  "short_name": "ExotIQ.ai",
+  "description": "AI-powered fleet management for vehicle rental operations",
+  "icons": [
+    {
+      "src": "/Exotiq%20Lockup.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Exotiq%20Lockup.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "en-US"
+}

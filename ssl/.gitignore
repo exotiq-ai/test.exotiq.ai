@@ -1,0 +1,15 @@
+# Ignore all generated certificate files
+*.pem
+*.csr
+*.srl
+
+# Keep configuration files
+!*.conf
+!*.sh
+!README.md
+!.gitignore
+
+# Ignore certificate directories but keep structure
+ca/
+server/
+certs/
