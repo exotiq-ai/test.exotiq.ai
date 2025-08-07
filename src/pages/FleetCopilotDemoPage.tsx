@@ -3,39 +3,17 @@ import { Bot, ArrowLeft, Mic, MessageSquare, Phone, Zap, CheckCircle, ArrowRight
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import { breadcrumbSchema } from '../data/structuredData';
+import { elevenLabsLoader } from '../services/elevenlabsLoader';
 
 export default function FleetCopilotDemoPage() {
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Load ElevenLabs ConvAI script only if custom elements are not already defined
-    const scriptSrc = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
-    
-    // Check if the custom elements are already defined
-    const isConvAIElementDefined = customElements.get('elevenlabs-convai');
-    const isTextareaDefined = customElements.get('mce-autosize-textarea');
-    
-    if (!isConvAIElementDefined && !isTextareaDefined) {
-      const script = document.createElement('script');
-      script.src = scriptSrc;
-      script.async = true;
-      script.type = 'text/javascript';
-      script.onload = () => {
-        console.log('ElevenLabs ConvAI script loaded successfully');
-      };
-      script.onerror = () => {
-        console.error('Failed to load ElevenLabs ConvAI script');
-      };
-      document.head.appendChild(script);
-    } else {
-      console.log('ElevenLabs ConvAI custom elements already defined, skipping script load');
-    }
-    
-    // Cleanup function
-    return () => {
-      // No cleanup needed as custom elements persist globally
-    };
+    // Load ElevenLabs ConvAI script using centralized loader
+    elevenLabsLoader.loadScript().catch(error => {
+      console.error('Failed to load ElevenLabs script:', error);
+    });
   }, []);
 
   return (

@@ -14,12 +14,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <div className="mb-4">
-              <img 
-                src="/Exotiq%20Lockup.png" 
-                alt="ExotIQ.ai" 
-                className="h-12 w-auto filter brightness-0 invert transition-opacity hover:opacity-80 object-contain"
-              />
+            <div className="mb-6">
+              <Link to="/" className="inline-block">
+                <img 
+                  src="/Exotiq%20Lockup.png" 
+                  alt="ExotIQ.ai" 
+                  className="h-14 w-auto filter brightness-0 invert transition-all duration-300 hover:opacity-80 hover:scale-105 object-contain"
+                  loading="lazy"
+                />
+              </Link>
             </div>
             <p className="font-inter text-gray-300 max-w-md mb-6">
               The AI-powered command center for vehicle rental operations. 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun, Brain, Home, Star, Users, Mail, BarChart3 } from 'lucide-react';
+import { Menu, X, Moon, Sun, Brain, Home, Star, Users, Mail, BarChart3, Building } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 export default function MobileNavigation() {
@@ -13,6 +13,7 @@ export default function MobileNavigation() {
     { name: 'Platform', href: '/features', icon: BarChart3 },
     { name: 'About', href: '/about', icon: Users },
     { name: 'Survey', href: '/survey', icon: Star },
+    { name: 'Invest', href: '/investors', icon: Building },
     { name: 'Contact', href: '/contact', icon: Mail },
   ];
 

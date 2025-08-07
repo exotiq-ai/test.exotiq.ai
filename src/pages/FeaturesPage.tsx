@@ -40,6 +40,7 @@ import {
 import SEOHead from '../components/SEOHead';
 import LazyImage from '../components/LazyImage';
 import { softwareApplicationSchema, breadcrumbSchema } from '../data/structuredData';
+import { elevenLabsLoader } from '../services/elevenlabsLoader';
 
 const FeatureCard = ({ 
   icon: Icon, 
@@ -108,10 +109,18 @@ const FeatureSection = ({
 export default function FeaturesPage() {
   const [activeTab, setActiveTab] = useState('motoriq');
   const [showConvAI, setShowConvAI] = useState(false);
+  const [elevenLabsReady, setElevenLabsReady] = useState(false);
 
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  // Load ElevenLabs script when component mounts
+  useEffect(() => {
+    elevenLabsLoader.loadScript()
+      .then(() => setElevenLabsReady(true))
+      .catch(error => console.error('Failed to load ElevenLabs script:', error));
   }, []);
 
   const tabs = [
@@ -635,7 +644,11 @@ export default function FeaturesPage() {
                 <p className="font-inter text-gray-600 dark:text-gray-300 mb-6">
                   Start a natural conversation with FleetCopilot
                 </p>
-                <elevenlabs-convai agent-id="agent_01k0r715nreqn94a2sf1axgrk4"></elevenlabs-convai>
+                {elevenLabsReady && (
+                  <div id="elevenlabs-convai-container">
+                    {/* ElevenLabs ConvAI will be rendered here when script is loaded */}
+                  </div>
+                )}
                 <p className="font-inter text-xs text-gray-500 dark:text-gray-400 mt-4">
                 </p>
               </div>

@@ -20,7 +20,8 @@ import {
   Clock,
   Award,
   FileText,
-  ExternalLink
+  ExternalLink,
+  Phone
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import { organizationSchema, breadcrumbSchema } from '../data/structuredData';
@@ -39,6 +40,7 @@ interface InvestorFormData {
 export default function InvestorPage() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [showDataRoomPopup, setShowDataRoomPopup] = useState(false);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -78,6 +80,39 @@ export default function InvestorPage() {
   const simulateEmailVerification = () => {
     setIsUnlocked(true);
   };
+
+  const handleDataRoomRequest = () => {
+    setShowDataRoomPopup(true);
+  };
+
+  const closeDataRoomPopup = () => {
+    setShowDataRoomPopup(false);
+  };
+
+  // Data Room Popup
+  if (showDataRoomPopup) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="bg-white dark:bg-dark-800 rounded-2xl p-8 max-w-md mx-4 text-center">
+          <div className="flex items-center justify-center w-16 h-16 bg-accent-600 rounded-full mx-auto mb-6">
+            <CheckCircle className="w-8 h-8 text-white" />
+          </div>
+          <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-4">
+            Thank You!
+          </h3>
+          <p className="font-inter text-gray-600 dark:text-gray-300 mb-8">
+            Thank you from the Exotiq team, we'll be in touch to schedule your access to Exotiq's Data Room.
+          </p>
+          <button
+            onClick={closeDataRoomPopup}
+            className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-accent-600 hover:bg-accent-700 text-white rounded-lg transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!isUnlocked) {
     return (
@@ -648,9 +683,12 @@ export default function InvestorPage() {
                 Detailed 5-year financial projections including revenue forecasts, 
                 unit economics, and sensitivity analysis.
               </p>
-              <button className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors flex items-center space-x-2 mx-auto">
+              <button 
+                onClick={handleDataRoomRequest}
+                className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors flex items-center space-x-2 mx-auto"
+              >
                 <ExternalLink className="w-4 h-4" />
-                <span>View Model</span>
+                <span>Data Room Request</span>
               </button>
               <p className="font-inter text-xs text-gray-500 dark:text-gray-400 mt-2">
                 Google Sheets access
@@ -670,11 +708,17 @@ export default function InvestorPage() {
             Join us in building the future of fleet management. Let's schedule a call to discuss your investment.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-white text-accent-600 hover:bg-gray-100 rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center min-h-[44px] touch-manipulation">
+            <button 
+              onClick={() => window.open('https://calendly.com/hello-exotiq/30min?back=1&month=2025-08', '_blank')}
+              className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-white text-accent-600 hover:bg-gray-100 rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center min-h-[44px] touch-manipulation"
+            >
               <Calendar className="w-5 h-5" />
               <span>Schedule Call</span>
             </button>
-            <button className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-accent-600 rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center min-h-[44px] touch-manipulation">
+            <button 
+              onClick={() => window.location.href = '/contact'}
+              className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-accent-600 rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center min-h-[44px] touch-manipulation"
+            >
               <Mail className="w-5 h-5" />
               <span>Send Questions</span>
             </button>

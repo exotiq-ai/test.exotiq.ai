@@ -275,10 +275,10 @@ export default function ContactPage() {
                       For urgent matters
                     </p>
                     <a 
-                      href="tel:+1234567890"
+                      href="tel:+19703439634"
                       className="font-inter text-accent-600 dark:text-accent-400 hover:underline"
                     >
-                      +1 (234) 567-8900
+                      +1 970.343.9634
                     </a>
                   </div>
                 </div>
