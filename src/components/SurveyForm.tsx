@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle, Clock, DollarSign, BarChart3 } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, DollarSign, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SurveyData, SurveyQuestion } from '../data/surveyData';
 
 interface SurveyFormProps {
@@ -30,9 +30,9 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
     switch (question.type) {
       case 'radio':
         return (
-          <div className="space-y-3">
+          <div className="space-y-2 max-h-64 overflow-y-auto">
             {question.options?.map((option, index) => (
-              <label key={index} className="flex items-center space-x-3 cursor-pointer">
+              <label key={index} className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
                 <input
                   type="radio"
                   name={question.id}
@@ -41,7 +41,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => onInputChange(question.id, e.target.value)}
                   className="w-4 h-4 text-primary-600 focus:ring-primary-500"
                 />
-                <span className="font-inter text-gray-700 dark:text-gray-300">{option}</span>
+                <span className="font-inter text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{option}</span>
               </label>
             ))}
           </div>
@@ -49,9 +49,9 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
 
       case 'checkbox':
         return (
-          <div className="space-y-3">
+          <div className="space-y-2 max-h-64 overflow-y-auto">
             {question.options?.map((option, index) => (
-              <label key={index} className="flex items-center space-x-3 cursor-pointer">
+              <label key={index} className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
                 <input
                   type="checkbox"
                   value={option}
@@ -66,7 +66,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
                   }}
                   className="w-4 h-4 text-primary-600 focus:ring-primary-500"
                 />
-                <span className="font-inter text-gray-700 dark:text-gray-300">{option}</span>
+                <span className="font-inter text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{option}</span>
               </label>
             ))}
           </div>
@@ -74,15 +74,15 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
 
       case 'scale':
         return (
-          <div className="flex space-x-2">
+          <div className="flex flex-wrap gap-2 justify-center">
             {question.options?.map((option, index) => (
               <button
                 key={index}
                 onClick={() => onInputChange(question.id, option)}
-                className={`w-12 h-12 rounded-lg border-2 font-semibold transition-colors ${
+                className={`w-12 h-12 rounded-lg border-2 font-semibold transition-all duration-200 hover:scale-105 ${
                   currentValue === option
-                    ? 'border-primary-600 bg-primary-600 text-white'
-                    : 'border-gray-300 dark:border-dark-600 text-gray-700 dark:text-gray-300 hover:border-primary-400'
+                    ? 'border-primary-600 bg-primary-600 text-white shadow-lg'
+                    : 'border-gray-300 dark:border-dark-600 text-gray-700 dark:text-gray-300 hover:border-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20'
                 }`}
               >
                 {option}
@@ -97,8 +97,8 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
             value={currentValue || ''}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onInputChange(question.id, e.target.value)}
             placeholder={question.placeholder}
-            rows={4}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+            rows={3}
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
           />
         );
 
@@ -119,108 +119,133 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
   };
 
   return (
-    <div className="pt-16">
-      {/* Survey Header with Progress Bar */}
-      <section className="py-8 sm:py-12 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-primary-600 rounded-lg flex-shrink-0">
-                <div className="w-6 h-6 bg-white rounded" />
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 flex flex-col">
+      {/* Compact Header - Fixed at top */}
+      <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-dark-700 sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            {/* Survey Info */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                <div className="w-4 h-4 bg-white rounded" />
               </div>
               <div>
-                <h1 className="font-space font-bold text-xl sm:text-2xl text-gray-900 dark:text-white">
+                <h1 className="font-space font-bold text-lg text-gray-900 dark:text-white leading-tight">
                   {survey.title}
                 </h1>
-                <p className="font-inter text-gray-600 dark:text-gray-300 text-sm sm:text-base">
-                  Question {currentStep + 1} of {survey.questions.length}
+                <p className="font-inter text-xs text-gray-600 dark:text-gray-400">
+                  {currentStep + 1} of {survey.questions.length} • {survey.estimatedTime}
                 </p>
               </div>
             </div>
-            <div className="text-left sm:text-right">
-              <div className="font-inter text-sm text-gray-600 dark:text-gray-400 mb-1">Progress</div>
-              <div className="font-space font-semibold text-lg text-gray-900 dark:text-white">
+            
+            {/* Progress */}
+            <div className="text-right">
+              <div className="font-inter text-xs text-gray-600 dark:text-gray-400 mb-1">Progress</div>
+              <div className="font-space font-bold text-lg text-primary-600">
                 {Math.round(progress)}%
               </div>
             </div>
           </div>
           
-          {/* Progress Bar */}
-          <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-3 sm:h-2">
+          {/* Compact Progress Bar */}
+          <div className="mt-3 w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
             <div 
-              className="bg-primary-600 h-3 sm:h-2 rounded-full transition-all duration-500 ease-out"
+              className="bg-primary-600 h-2 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          
-          {/* Survey Info */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            <div className="bg-white/50 dark:bg-dark-700/50 p-3 rounded-lg">
-              <div className="flex items-center justify-center space-x-2 mb-1">
-                <Clock className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                <span className="font-inter font-semibold text-sm text-gray-900 dark:text-white">Time</span>
-              </div>
-              <p className="font-inter text-xs text-gray-600 dark:text-gray-300">{survey.estimatedTime}</p>
-            </div>
-            <div className="bg-white/50 dark:bg-dark-700/50 p-3 rounded-lg">
-              <div className="flex items-center justify-center space-x-2 mb-1">
-                <BarChart3 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                <span className="font-inter font-semibold text-sm text-gray-900 dark:text-white">Questions</span>
-              </div>
-              <p className="font-inter text-xs text-gray-600 dark:text-gray-300">{survey.questions.length} total</p>
-            </div>
-            <div className="bg-white/50 dark:bg-dark-700/50 p-3 rounded-lg">
-              <div className="flex items-center justify-center space-x-2 mb-1">
-                <DollarSign className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                <span className="font-inter font-semibold text-sm text-gray-900 dark:text-white">Reward</span>
-              </div>
-              <p className="font-inter text-xs text-gray-600 dark:text-gray-300">Guaranteed</p>
-            </div>
-          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Question */}
-      <section className="py-8 sm:py-12 bg-white dark:bg-dark-900">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gray-50 dark:bg-dark-800 p-6 sm:p-8 rounded-2xl">
-            <h2 className="font-space font-semibold text-xl sm:text-2xl text-gray-900 dark:text-white mb-6">
-              {currentQuestion.question}
-            </h2>
-            
-            {renderQuestion(currentQuestion)}
-
-            {/* Navigation */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mt-8 space-y-4 sm:space-y-0">
-              <button
-                onClick={onPrevious}
-                disabled={currentStep === 0}
-                className="w-full sm:w-auto font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 border-2 border-gray-300 dark:border-dark-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed hover:border-gray-400 min-h-[48px]"
-              >
-                Previous
-              </button>
-               
-              {currentStep === survey.questions.length - 1 ? (
-                <button
-                  onClick={onSubmit}
-                  className="w-full sm:w-auto font-poppins font-bold text-sm uppercase tracking-wide px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 min-h-[48px]"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  <span>Submit Survey</span>
-                </button>
-              ) : (
-                <button
-                  onClick={onNext}
-                  className="w-full sm:w-auto font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors flex items-center justify-center space-x-2 min-h-[48px]"
-                >
-                  <span>Next</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+      {/* Main Content - Fits in viewport */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-2xl">
+          {/* Question Card */}
+          <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl border border-gray-200 dark:border-dark-700 overflow-hidden">
+            {/* Question Header */}
+            <div className="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 p-6 border-b border-gray-200 dark:border-dark-700">
+              <h2 className="font-space font-bold text-xl sm:text-2xl text-gray-900 dark:text-white mb-2 leading-tight">
+                {currentQuestion.question}
+              </h2>
+              {question.required && (
+                <p className="text-sm text-primary-600 dark:text-primary-400 font-medium">
+                  * Required
+                </p>
               )}
             </div>
+            
+            {/* Question Content */}
+            <div className="p-6">
+              {renderQuestion(currentQuestion)}
+            </div>
+            
+            {/* Navigation Footer */}
+            <div className="bg-gray-50 dark:bg-dark-700 px-6 py-4 border-t border-gray-200 dark:border-dark-600">
+              <div className="flex items-center justify-between">
+                {/* Previous Button */}
+                <button
+                  onClick={onPrevious}
+                  disabled={currentStep === 0}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    currentStep === 0
+                      ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-dark-600'
+                  }`}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span className="hidden sm:inline">Previous</span>
+                </button>
+                
+                {/* Question Counter */}
+                <div className="text-center">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {currentStep + 1} of {survey.questions.length}
+                  </span>
+                </div>
+                
+                {/* Next/Submit Button */}
+                {currentStep === survey.questions.length - 1 ? (
+                  <button
+                    onClick={onSubmit}
+                    className="flex items-center space-x-2 px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+                  >
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Submit Survey</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={onNext}
+                    className="flex items-center space-x-2 px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+          
+          {/* Quick Stats */}
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            <div className="bg-white/60 dark:bg-dark-800/60 backdrop-blur-sm rounded-lg p-3 text-center border border-gray-200 dark:border-dark-700">
+              <Clock className="w-4 h-4 text-primary-600 mx-auto mb-1" />
+              <p className="text-xs text-gray-600 dark:text-gray-400">Time</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">{survey.estimatedTime}</p>
+            </div>
+            <div className="bg-white/60 dark:bg-dark-800/60 backdrop-blur-sm rounded-lg p-3 text-center border border-gray-200 dark:border-dark-700">
+              <BarChart3 className="w-4 h-4 text-accent-600 mx-auto mb-1" />
+              <p className="text-xs text-gray-600 dark:text-gray-400">Questions</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">{survey.questions.length}</p>
+            </div>
+            <div className="bg-white/60 dark:bg-dark-800/60 backdrop-blur-sm rounded-lg p-3 text-center border border-gray-200 dark:border-dark-700">
+              <DollarSign className="w-4 h-4 text-success-600 mx-auto mb-1" />
+              <p className="text-xs text-gray-600 dark:text-gray-400">Reward</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Guaranteed</p>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };

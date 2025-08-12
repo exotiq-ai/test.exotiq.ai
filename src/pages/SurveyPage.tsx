@@ -97,7 +97,7 @@ export default function SurveyPage() {
   // If no survey type or invalid survey, show survey selection
   if (!currentSurvey) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20">
         <SEOHead
           title="Fleet Management Survey - Help Shape Exotiq.ai"
           description="Share your fleet management experience and help shape Exotiq.ai's development. Choose from surveys for small fleets (1-5 vehicles), scaling operations (6-50 vehicles), or exotic/luxury fleets."
@@ -109,37 +109,37 @@ export default function SurveyPage() {
           ])}
         />
         
-        <div className="max-w-4xl mx-auto px-4 py-12 sm:py-16">
-          <div className="text-center mb-12">
-            <h1 className="font-space font-bold text-4xl sm:text-5xl text-gray-900 dark:text-white mb-6">
+        <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="font-space font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight">
               Help Shape Exotiq
             </h1>
-            <p className="font-inter text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="font-inter text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Your experience matters. Help us build the perfect fleet management platform by sharing your insights.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {Object.entries(surveys).map(([key, survey]) => (
               <Link
                 key={key}
                 to={`/survey?type=${key}`}
-                className="group bg-white dark:bg-dark-800 p-6 rounded-xl border border-gray-200 dark:border-dark-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all duration-200 hover:shadow-lg"
+                className="group bg-white dark:bg-dark-800 p-4 sm:p-6 rounded-xl border border-gray-200 dark:border-dark-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all duration-200 hover:shadow-lg hover:scale-105"
               >
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
-                    <Suspense fallback={<div className="w-8 h-8 bg-gray-300 rounded animate-pulse" />}>
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-200">
+                    <Suspense fallback={<div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded animate-pulse" />}>
                       <SurveyIcons type={key} />
                     </Suspense>
                   </div>
-                  <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white mb-2">
+                  <h3 className="font-space font-bold text-lg sm:text-xl text-gray-900 dark:text-white mb-2 leading-tight">
                     {survey.title}
                   </h3>
-                  <p className="font-inter text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="font-inter text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed">
                     {survey.description}
                   </p>
                   <div className="flex items-center justify-center text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300">
-                    <span className="font-medium">Start Survey</span>
+                    <span className="font-medium text-sm sm:text-base">Start Survey</span>
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
