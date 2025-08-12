@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
-import Layout from './components/Layout';
+import { AccessibilityProvider } from './components/AccessibilityProvider';
+import AccessibilityControls from './components/AccessibilityControls';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CookieConsentBanner from './components/CookieConsentBanner';
 import LoadingSpinner from './components/LoadingSpinner';
 import ThemeAwareLogo from './components/ThemeAwareLogo';
+import { PerformanceMonitor } from './services/analytics';
 
 // Lazy load page components for better performance
 const HomePage = React.lazy(() => import('./pages/HomePage'));
@@ -32,32 +37,62 @@ const PageLoadingFallback = () => (
   </div>
 );
 
-function App() {
+export default function App() {
+  // Initialize performance monitoring
+  useEffect(() => {
+    PerformanceMonitor.trackWebVitals();
+    
+    // Check performance budgets periodically
+    const interval = setInterval(() => {
+      const violations = PerformanceMonitor.checkPerformanceBudgets();
+      if (violations && violations.length > 0) {
+        console.warn('🚨 Performance budget violations:', violations);
+        
+        // Send to analytics
+        if (window.gtag) {
+          window.gtag('event', 'performance_budget_violation', {
+            event_category: 'Performance',
+            event_label: violations.join(', '),
+            value: violations.length,
+          });
+        }
+      }
+    }, 30000); // Check every 30 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <Router>
-          <React.Suspense fallback={<PageLoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<HomePage />} />
-                <Route path="features" element={<FeaturesPage />} />
-                <Route path="about" element={<AboutPage />} />
-                <Route path="contact" element={<ContactPage />} />
-                <Route path="survey" element={<SurveyPage />} />
-                <Route path="investors" element={<InvestorPage />} />
-                <Route path="test" element={<TestPage />} />
-                <Route path="cookies" element={<CookiePolicyPage />} />
-                <Route path="terms" element={<TermsAndConditionsPage />} />
-                <Route path="privacy" element={<PrivacyPolicyPage />} />
-                <Route path="fleetcopilot" element={<FleetCopilotDemoPage />} />
-              </Route>
-            </Routes>
-          </React.Suspense>
-        </Router>
+        <AccessibilityProvider>
+          <Router>
+            <div className="App">
+              <Header />
+              <main id="main-content">
+                <Suspense fallback={<PageLoadingFallback />}>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/features" element={<FeaturesPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/survey" element={<SurveyPage />} />
+                    <Route path="/investors" element={<InvestorPage />} />
+                    <Route path="/fleetcopilot" element={<FleetCopilotDemoPage />} />
+                    <Route path="/terms" element={<TermsAndConditionsPage />} />
+                    <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                    <Route path="/cookies" element={<CookiePolicyPage />} />
+                    <Route path="/test" element={<TestPage />} />
+                  </Routes>
+                </Suspense>
+              </main>
+              <Footer />
+              <AccessibilityControls />
+              <CookieConsentBanner />
+            </div>
+          </Router>
+        </AccessibilityProvider>
       </ThemeProvider>
     </HelmetProvider>
   );
 }
-
-export default App;

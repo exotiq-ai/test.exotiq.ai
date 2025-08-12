@@ -14,24 +14,59 @@ export default defineConfig({
   plugins: [
     react(),
     visualizer({
-      filename: 'dist/stats.html',
+      filename: 'dist/bundle-analysis.html',
       open: true,
       gzipSize: true,
       brotliSize: true,
-    })
+    }),
   ],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
+  build: {
+    // Performance budgets
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks for better caching
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['lucide-react'],
+          'utils-vendor': ['@supabase/supabase-js'],
+        },
+        // Asset naming for better caching
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name?.split('.') || [];
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext || '')) {
+            return `assets/images/[name]-[hash][extname]`;
+          }
+          if (/css/i.test(ext || '')) {
+            return `assets/css/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+      },
+    },
+    // Bundle size limits
+    chunkSizeWarningLimit: 1000, // 1MB warning
+    // Enable source maps for debugging
+    sourcemap: false, // Disable in production for better performance
+    // Minify and optimize
+    minify: 'esbuild', // Use esbuild instead of terser
   },
+  // Performance optimizations
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    exclude: ['@supabase/supabase-js'], // Exclude from pre-bundling
+  },
+  // Server optimizations
   server: {
-    host: true,
-    port: 3000,
-    ...(hasSSL && {
-      https: {
-        key: fs.readFileSync(sslKeyPath),
-        cert: fs.readFileSync(sslCertPath),
-      }
-    })
+    hmr: {
+      overlay: false, // Disable error overlay for better performance
+    },
+  },
+  // CSS optimizations
+  css: {
+    devSourcemap: false, // Disable source maps in development
   },
   preview: {
     host: true,

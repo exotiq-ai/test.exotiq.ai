@@ -284,3 +284,184 @@ export const trackCalendarClick = (sessionId: string, type: '15min' | '30min') =
 export const trackBetaSignup = (sessionId: string, email: string) => {
   analyticsService.trackAction(sessionId, 'beta_signup', { email });
 };
+
+// Performance monitoring and Core Web Vitals
+export const PerformanceMonitor = {
+  // Track Core Web Vitals
+  trackWebVitals: () => {
+    if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
+      try {
+        // Track Largest Contentful Paint (LCP)
+        const lcpObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          if (lastEntry) {
+            const lcp = lastEntry.startTime;
+            this.trackMetric('LCP', lcp);
+            
+            // Send to analytics
+            if (window.gtag) {
+              window.gtag('event', 'web_vitals', {
+                event_category: 'Web Vitals',
+                event_label: 'LCP',
+                value: Math.round(lcp),
+                non_interaction: true,
+              });
+            }
+          }
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+
+        // Track First Input Delay (FID)
+        const fidObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry) => {
+            const fid = entry.processingStart - entry.startTime;
+            this.trackMetric('FID', fid);
+            
+            if (window.gtag) {
+              window.gtag('event', 'web_vitals', {
+                event_category: 'Web Vitals',
+                event_label: 'FID',
+                value: Math.round(fid),
+                non_interaction: true,
+              });
+            }
+          });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
+
+        // Track Cumulative Layout Shift (CLS)
+        let clsValue = 0;
+        let clsEntries: any[] = [];
+        
+        const clsObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry: any) => {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+              clsEntries.push(entry);
+            }
+          });
+          
+          this.trackMetric('CLS', clsValue);
+          
+          if (window.gtag) {
+            window.gtag('event', 'web_vitals', {
+              event_category: 'Web Vitals',
+              event_label: 'CLS',
+              value: Math.round(clsValue * 1000) / 1000,
+              non_interaction: true,
+            });
+          }
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+
+        // Track Time to First Byte (TTFB)
+        const navigationObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry: any) => {
+            if (entry.entryType === 'navigation') {
+              const ttfb = entry.responseStart - entry.requestStart;
+              this.trackMetric('TTFB', ttfb);
+              
+              if (window.gtag) {
+                window.gtag('event', 'web_vitals', {
+                  event_category: 'Web Vitals',
+                  event_label: 'TTFB',
+                  value: Math.round(ttfb),
+                  non_interaction: true,
+                });
+              }
+            }
+          });
+        });
+        navigationObserver.observe({ entryTypes: ['navigation'] });
+
+      } catch (error) {
+        console.warn('Performance monitoring failed:', error);
+      }
+    }
+  },
+
+  // Track custom performance metrics
+  trackMetric: (name: string, value: number) => {
+    try {
+      const stored = localStorage.getItem('exotiq_performance_metrics');
+      const metrics = stored ? JSON.parse(stored) : {};
+      
+      if (!metrics[name]) {
+        metrics[name] = [];
+      }
+      
+      metrics[name].push({
+        value,
+        timestamp: Date.now(),
+      });
+      
+      // Keep only last 100 measurements
+      if (metrics[name].length > 100) {
+        metrics[name] = metrics[name].slice(-100);
+      }
+      
+      localStorage.setItem('exotiq_performance_metrics', JSON.stringify(metrics));
+      
+      // Log to console in development
+      if (import.meta.env.DEV) {
+        console.log(`📊 Performance Metric - ${name}:`, value);
+      }
+    } catch (error) {
+      console.warn('Failed to track performance metric:', error);
+    }
+  },
+
+  // Get performance summary
+  getPerformanceSummary: () => {
+    try {
+      const stored = localStorage.getItem('exotiq_performance_metrics');
+      if (!stored) return null;
+      
+      const metrics = JSON.parse(stored);
+      const summary: Record<string, any> = {};
+      
+      Object.keys(metrics).forEach((key) => {
+        const values = metrics[key].map((m: any) => m.value);
+        summary[key] = {
+          count: values.length,
+          average: values.reduce((a: number, b: number) => a + b, 0) / values.length,
+          min: Math.min(...values),
+          max: Math.max(...values),
+          latest: values[values.length - 1],
+        };
+      });
+      
+      return summary;
+    } catch (error) {
+      console.warn('Failed to get performance summary:', error);
+      return null;
+    }
+  },
+
+  // Check performance budgets
+  checkPerformanceBudgets: () => {
+    const budgets = {
+      LCP: 2500, // 2.5 seconds
+      FID: 100,  // 100 milliseconds
+      CLS: 0.1,  // 0.1
+      TTFB: 800, // 800 milliseconds
+    };
+    
+    const summary = this.getPerformanceSummary();
+    if (!summary) return null;
+    
+    const violations: string[] = [];
+    
+    Object.keys(budgets).forEach((metric) => {
+      if (summary[metric] && summary[metric].latest > budgets[metric as keyof typeof budgets]) {
+        violations.push(`${metric}: ${summary[metric].latest}ms (budget: ${budgets[metric as keyof typeof budgets]}ms)`);
+      }
+    });
+    
+    return violations.length > 0 ? violations : null;
+  },
+};
