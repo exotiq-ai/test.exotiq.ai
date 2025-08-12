@@ -297,7 +297,7 @@ export const PerformanceMonitor = {
           const lastEntry = entries[entries.length - 1];
           if (lastEntry) {
             const lcp = lastEntry.startTime;
-            this.trackMetric('LCP', lcp);
+            PerformanceMonitor.trackMetric('LCP', lcp);
             
             // Send to analytics
             if (window.gtag) {
@@ -317,7 +317,7 @@ export const PerformanceMonitor = {
           const entries = list.getEntries();
           entries.forEach((entry) => {
             const fid = entry.processingStart - entry.startTime;
-            this.trackMetric('FID', fid);
+            PerformanceMonitor.trackMetric('FID', fid);
             
             if (window.gtag) {
               window.gtag('event', 'web_vitals', {
@@ -344,7 +344,7 @@ export const PerformanceMonitor = {
             }
           });
           
-          this.trackMetric('CLS', clsValue);
+          PerformanceMonitor.trackMetric('CLS', clsValue);
           
           if (window.gtag) {
             window.gtag('event', 'web_vitals', {
@@ -363,7 +363,7 @@ export const PerformanceMonitor = {
           entries.forEach((entry: any) => {
             if (entry.entryType === 'navigation') {
               const ttfb = entry.responseStart - entry.requestStart;
-              this.trackMetric('TTFB', ttfb);
+              PerformanceMonitor.trackMetric('TTFB', ttfb);
               
               if (window.gtag) {
                 window.gtag('event', 'web_vitals', {

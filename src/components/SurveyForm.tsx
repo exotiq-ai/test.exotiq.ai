@@ -168,7 +168,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
               <h2 className="font-space font-bold text-xl sm:text-2xl text-gray-900 dark:text-white mb-2 leading-tight">
                 {currentQuestion.question}
               </h2>
-              {question.required && (
+              {currentQuestion.required && (
                 <p className="text-sm text-primary-600 dark:text-primary-400 font-medium">
                   * Required
                 </p>
