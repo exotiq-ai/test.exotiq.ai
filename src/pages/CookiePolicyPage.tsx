@@ -34,9 +34,9 @@ export default function CookiePolicyPage() {
       description: 'Required for basic website functionality',
       required: true,
       cookies: [
-        { name: 'exotiq_session', purpose: 'Maintains your login session', duration: 'Session', provider: 'ExotIQ.ai' },
-        { name: 'csrf_token', purpose: 'Security protection against cross-site attacks', duration: 'Session', provider: 'ExotIQ.ai' },
-        { name: 'cookie_consent', purpose: 'Remembers your cookie preferences', duration: '1 year', provider: 'ExotIQ.ai' }
+        { name: 'exotiq_session', purpose: 'Maintains your login session', duration: 'Session', provider: 'Exotiq.ai' },
+        { name: 'csrf_token', purpose: 'Security protection against cross-site attacks', duration: 'Session', provider: 'Exotiq.ai' },
+        { name: 'cookie_consent', purpose: 'Remembers your cookie preferences', duration: '1 year', provider: 'Exotiq.ai' }
       ]
     },
     {
@@ -46,9 +46,9 @@ export default function CookiePolicyPage() {
       description: 'Enhanced functionality and personalization',
       required: false,
       cookies: [
-        { name: 'user_preferences', purpose: 'Stores your dashboard layout and preferences', duration: '1 year', provider: 'ExotIQ.ai' },
-        { name: 'language_setting', purpose: 'Remembers your selected language', duration: '1 year', provider: 'ExotIQ.ai' },
-        { name: 'timezone_offset', purpose: 'Displays times in your local timezone', duration: '6 months', provider: 'ExotIQ.ai' }
+        { name: 'user_preferences', purpose: 'Stores your dashboard layout and preferences', duration: '1 year', provider: 'Exotiq.ai' },
+        { name: 'language_setting', purpose: 'Remembers your selected language', duration: '1 year', provider: 'Exotiq.ai' },
+        { name: 'timezone_offset', purpose: 'Displays times in your local timezone', duration: '6 months', provider: 'Exotiq.ai' }
       ]
     },
     {
@@ -81,9 +81,9 @@ export default function CookiePolicyPage() {
   return (
     <div className="pt-16">
       <SEOHead
-        title="Cookie Policy - ExotIQ.ai Privacy & Data Usage"
-        description="Learn about ExotIQ.ai's cookie usage, manage your preferences, and understand how we protect your privacy while providing the best fleet management experience."
-        keywords="ExotIQ.ai cookies, privacy policy, data usage, cookie preferences, GDPR compliance, privacy controls"
+        title="Cookie Policy - Exotiq.ai Privacy & Data Usage"
+        description="Learn about Exotiq.ai's cookie usage, manage your preferences, and understand how we protect your privacy while providing the best fleet management experience."
+        keywords="Exotiq.ai cookies, privacy policy, data usage, cookie preferences, GDPR compliance, privacy controls"
         url="https://exotiq.ai/cookies"
         structuredData={breadcrumbSchema([
           { name: "Home", url: "https://exotiq.ai" },
@@ -101,7 +101,7 @@ export default function CookiePolicyPage() {
             🍪 Cookie Policy
           </h1>
           <p className="font-inter text-xl opacity-90 mb-8">
-            ExotIQ.ai Cookie Usage & Privacy Controls
+            Exotiq.ai Cookie Usage & Privacy Controls
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
@@ -124,7 +124,7 @@ export default function CookiePolicyPage() {
             </h2>
             <p className="font-inter text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
               Cookies are small text files that websites store on your device to enhance your browsing experience. 
-              ExotIQ.ai uses cookies to provide essential functionality, improve our services, and understand how 
+              Exotiq.ai uses cookies to provide essential functionality, improve our services, and understand how 
               you interact with our platform.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
@@ -223,7 +223,7 @@ export default function CookiePolicyPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-primary-50 dark:bg-primary-900/20 p-8 rounded-2xl">
               <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white mb-4">
-                ExotIQ.ai Cookie Settings
+                Exotiq.ai Cookie Settings
               </h3>
               <p className="font-inter text-gray-600 dark:text-gray-300 mb-6">
                 You can manage your cookie preferences at any time using our cookie settings panel.

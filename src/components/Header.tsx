@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Moon, Sun, Brain } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import MobileNavigation from './MobileNavigation';
+import ThemeAwareLogo from './ThemeAwareLogo';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,11 +40,7 @@ export default function Header() {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 group">
-              <img 
-                src="/Exotiq%20Lockup.png" 
-                alt="ExotIQ.ai" 
-                className="h-9 w-auto transition-all duration-200 group-hover:opacity-80 group-hover:scale-105 object-contain"
-              />
+              <ThemeAwareLogo size="header" />
             </Link>
 
             {/* Desktop Navigation */}

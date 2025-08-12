@@ -24,26 +24,59 @@ export default function CookieConsentBanner() {
 
   // Load preferences on mount
   useEffect(() => {
-    const savedPreferences = localStorage.getItem('exotiq_cookie_preferences');
-    if (savedPreferences) {
-      const parsed = JSON.parse(savedPreferences);
-      setPreferences(parsed);
-      applyPreferences(parsed);
-    } else {
-      // Show banner for first-time visitors
+    try {
+      // Clear old preferences if domain changed
+      const currentDomain = window.location.hostname;
+      const savedDomain = localStorage.getItem('exotiq_domain');
+      
+      if (savedDomain && savedDomain !== currentDomain) {
+        // Domain changed, clear old preferences
+        localStorage.removeItem('exotiq_cookie_preferences');
+        localStorage.removeItem('exotiq_analytics_events');
+        setShowBanner(true);
+      }
+      
+      // Save current domain
+      localStorage.setItem('exotiq_domain', currentDomain);
+      
+      const savedPreferences = localStorage.getItem('exotiq_cookie_preferences');
+      if (savedPreferences) {
+        try {
+          const parsed = JSON.parse(savedPreferences);
+          setPreferences(parsed);
+          applyPreferences(parsed);
+        } catch (error) {
+          // Invalid JSON, clear and show banner
+          localStorage.removeItem('exotiq_cookie_preferences');
+          setShowBanner(true);
+        }
+      } else {
+        // Show banner for first-time visitors
+        setShowBanner(true);
+      }
+    } catch (error) {
+      // localStorage blocked, show banner
+      console.warn('localStorage blocked, showing cookie banner');
       setShowBanner(true);
     }
   }, []);
 
   const savePreferences = (newPreferences: CookiePreferences) => {
-    const prefsWithTimestamp = {
-      ...newPreferences,
-      timestamp: Date.now()
-    };
-    
-    localStorage.setItem('exotiq_cookie_preferences', JSON.stringify(prefsWithTimestamp));
-    setPreferences(prefsWithTimestamp);
-    applyPreferences(prefsWithTimestamp);
+    try {
+      const prefsWithTimestamp = {
+        ...newPreferences,
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem('exotiq_cookie_preferences', JSON.stringify(prefsWithTimestamp));
+      setPreferences(prefsWithTimestamp);
+      applyPreferences(prefsWithTimestamp);
+    } catch (error) {
+      // localStorage blocked, continue without saving
+      console.warn('localStorage blocked, preferences not saved');
+      setPreferences(newPreferences);
+      applyPreferences(newPreferences);
+    }
   };
 
   const applyPreferences = (prefs: CookiePreferences) => {
@@ -87,7 +120,7 @@ export default function CookieConsentBanner() {
   };
 
   const loadMixpanel = () => {
-    if (typeof window !== 'undefined' && !window.mixpanel && import.meta.env.VITE_MIXPANEL_TOKEN) {
+    if (typeof window !== 'undefined' && !(window as any).mixpanel && import.meta.env.VITE_MIXPANEL_TOKEN) {
       // Mixpanel implementation would go here
       console.log('Mixpanel analytics enabled');
     }

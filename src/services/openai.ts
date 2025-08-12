@@ -114,7 +114,7 @@ export class OpenAIService {
       return "I'd be happy to connect you with our team! For general questions, we have 15-min slots available. For serious operators or investors, we offer 30-min deep dives. Which would work better for you?";
     }
     
-    return "Thanks for reaching out! I'm here to help with any fleet management questions. What would you like to know about ExotIQ or fleet operations in general?";
+    return "Thanks for reaching out! I'm here to help with any fleet management questions. What would you like to know about Exotiq or fleet operations in general?";
   }
 
   updateUserContext(sessionId: string, context: Partial<UserContext>): void {

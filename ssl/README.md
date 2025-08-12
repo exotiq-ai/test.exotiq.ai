@@ -1,4 +1,4 @@
-# SSL Certificate Setup for ExotIQ.ai
+# SSL Certificate Setup for Exotiq.ai
 
 This directory contains the configuration and scripts needed to generate SSL certificates for HTTPS development.
 

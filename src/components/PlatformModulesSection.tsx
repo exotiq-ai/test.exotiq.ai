@@ -14,7 +14,7 @@ const PlatformModulesSection: React.FC<PlatformModulesSectionProps> = ({ activeT
       <div className="text-center mb-12 sm:mb-16">
         <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-primary-700 dark:text-primary-300 font-semibold text-xs sm:text-sm mb-4 sm:mb-6 animate-slide-up">
           <Brain className="w-3 sm:w-4 h-3 sm:h-4 mr-2" />
-          The ExotIQ Platform
+          The Exotiq Platform
         </div>
         <h2 className="font-space font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 dark:text-white mb-4 sm:mb-6 animate-slide-up px-2" style={{ animationDelay: '100ms' }}>
           Intelligent Modules. Seamless Integration.
@@ -59,10 +59,9 @@ const PlatformModulesSection: React.FC<PlatformModulesSectionProps> = ({ activeT
           </button>
           {/* Add more tabs as needed */}
         </div>
-        {/* Tab Content (placeholder) */}
+        {/* Tab Content */}
         <div className="bg-white dark:bg-dark-800 p-8 rounded-2xl shadow-md">
-          {/* Render content based on activeTab here */}
-          <p className="text-center text-gray-700 dark:text-gray-300">[Module content for {activeTab}]</p>
+          {/* Content will be implemented based on activeTab */}
         </div>
       </div>
     </MobileContainer>

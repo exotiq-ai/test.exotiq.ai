@@ -1,4 +1,4 @@
-// Service Worker for ExotIQ.ai
+// Service Worker for Exotiq.ai
 const CACHE_NAME = 'exotiq-cache-v1';
 const urlsToCache = [
   '/',

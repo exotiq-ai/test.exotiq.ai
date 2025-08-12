@@ -3,7 +3,7 @@
 # Create SSL directory structure
 mkdir -p ssl/{ca,server,certs}
 
-echo "🔐 Generating SSL certificates for ExotIQ.ai..."
+echo "🔐 Generating SSL certificates for Exotiq.ai..."
 
 # Generate CA private key
 echo "📝 Generating CA private key..."

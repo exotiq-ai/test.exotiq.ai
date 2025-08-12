@@ -22,7 +22,7 @@ interface ChatRequest {
 }
 
 // System prompt for FleetCopilot
-const SYSTEM_PROMPT = `You are FleetCopilot, an AI assistant for ExotIQ.ai - a fleet management platform for vehicle rental operators, Turo hosts, and car sharing businesses.
+const SYSTEM_PROMPT = `You are FleetCopilot, an AI assistant for Exotiq.ai - a fleet management platform for vehicle rental operators, Turo hosts, and car sharing businesses.
 
 PERSONALITY & TONE:
 - Friendly, knowledgeable, and helpful
@@ -62,7 +62,7 @@ IMPORTANT GUIDELINES:
 - For trial access: "Coming soon! We're working diligently on building something special"
 - Be honest about current development status
 
-Remember: You're here to help fleet operators succeed, whether they use ExotIQ or not.`;
+Remember: You're here to help fleet operators succeed, whether they use Exotiq or not.`;
 
 Deno.serve(async (req: Request) => {
   // Handle CORS preflight requests
@@ -202,5 +202,5 @@ function getFallbackResponse(message: string, userContext: any): string {
     return "I'd be happy to connect you with our team! For general questions, we have 15-min slots available. For serious operators or investors, we offer 30-min deep dives. Which would work better for you?"
   }
   
-  return "Thanks for reaching out! I'm here to help with any fleet management questions. What would you like to know about ExotIQ or fleet operations in general?"
+  return "Thanks for reaching out! I'm here to help with any fleet management questions. What would you like to know about Exotiq or fleet operations in general?"
 }

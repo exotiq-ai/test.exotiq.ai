@@ -46,9 +46,9 @@ export default function ContactPage() {
   return (
     <div className="pt-16">
       <SEOHead
-        title="Contact ExotIQ.ai - Get in Touch with Our Team"
-        description="Contact ExotIQ.ai for beta access, partnerships, investor relations, or support. We respond to general inquiries within 24-48 hours and partnership inquiries same day."
-        keywords="contact ExotIQ.ai, fleet management support, beta access request, partnership inquiry, investor relations, customer support"
+        title="Contact Exotiq.ai - Get in Touch with Our Team"
+        description="Contact Exotiq.ai for beta access, partnerships, investor relations, or support. We respond to general inquiries within 24-48 hours and partnership inquiries same day."
+        keywords="contact Exotiq.ai, fleet management support, beta access request, partnership inquiry, investor relations, customer support"
         url="https://exotiq.ai/contact"
         structuredData={breadcrumbSchema([
           { name: "Home", url: "https://exotiq.ai" },
@@ -63,7 +63,7 @@ export default function ContactPage() {
             Let's Connect
           </h1>
           <p className="font-inter text-xl text-gray-600 dark:text-gray-300 mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
-            Ready to transform your fleet management? Have questions about ExotIQ? 
+            Ready to transform your fleet management? Have questions about Exotiq? 
             We'd love to hear from you.
           </p>
         </div>

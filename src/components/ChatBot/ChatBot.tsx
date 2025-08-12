@@ -358,7 +358,7 @@ export default function FleetCopilot({ isOpen, onToggle, sessionId, isReturningU
     if (newScore >= 70 && conversationStage !== 'conversion') {
       setConversationStage('conversion');
       setTimeout(() => {
-        addBotMessage("Based on our conversation, ExotIQ sounds like a perfect fit for your operation! Ready to see how we can help you scale?", {
+        addBotMessage("Based on our conversation, Exotiq sounds like a perfect fit for your operation! Ready to see how we can help you scale?", {
           buttons: [
             { text: "📅 Quick 15-min Chat", action: "calendar", url: "https://calendly.com/hello-exotiq/15-minute-meeting" },
             { text: "🚀 30-min Strategy Call", action: "calendar", url: "https://calendly.com/hello-exotiq/30min" }

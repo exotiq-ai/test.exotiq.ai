@@ -27,20 +27,25 @@ import SEOHead from '../components/SEOHead';
 import { organizationSchema, breadcrumbSchema } from '../data/structuredData';
 
 interface InvestorFormData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  company: string;
-  investmentRange: string;
-  investorType: string;
+  companyName: string;
+  phone?: string;
+  investmentAmountRange: string;
+  investmentType: string;
   industryExperience: string;
-  timeline: string;
+  investmentTimeline: string;
   contactPreference: string;
+  additionalNotes?: string;
 }
 
 export default function InvestorPage() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [showDataRoomPopup, setShowDataRoomPopup] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -48,14 +53,17 @@ export default function InvestorPage() {
   }, []);
 
   const [formData, setFormData] = useState<InvestorFormData>({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    company: '',
-    investmentRange: '',
-    investorType: '',
+    companyName: '',
+    phone: '',
+    investmentAmountRange: '',
+    investmentType: '',
     industryExperience: '',
-    timeline: '',
-    contactPreference: ''
+    investmentTimeline: '',
+    contactPreference: '',
+    additionalNotes: ''
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -65,16 +73,64 @@ export default function InvestorPage() {
     });
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    // and trigger the email verification workflow
-    setEmailSent(true);
-    
-    // For demo purposes, we'll simulate email verification after 3 seconds
-    setTimeout(() => {
-      setIsUnlocked(true);
-    }, 3000);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Split full name into first and last name
+      const nameParts = formData.firstName.trim().split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
+      const submissionData = {
+        firstName,
+        lastName,
+        email: formData.email,
+        companyName: formData.companyName,
+        phone: formData.phone,
+        investmentAmountRange: formData.investmentAmountRange,
+        investmentType: formData.investmentType,
+        investmentTimeline: formData.investmentTimeline,
+        additionalNotes: formData.additionalNotes,
+        source: 'website'
+      };
+
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      if (!supabaseUrl) {
+        throw new Error('Supabase configuration missing');
+      }
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/handle-investor-submission`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(submissionData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to submit investor form');
+      }
+
+      console.log('Investor submission successful:', result.investorId);
+      setEmailSent(true);
+      
+      // Simulate email verification after 3 seconds (for demo purposes)
+      setTimeout(() => {
+        setIsUnlocked(true);
+      }, 3000);
+
+    } catch (error) {
+      console.error('Investor submission error:', error);
+      setSubmitError(error instanceof Error ? error.message : 'An error occurred while submitting the form');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const simulateEmailVerification = () => {
@@ -118,9 +174,9 @@ export default function InvestorPage() {
     return (
       <div className="pt-16">
         <SEOHead
-          title="Investor Portal - ExotIQ.ai Investment Opportunity"
-          description="Access ExotIQ.ai's investor materials including pitch deck, financial projections, and market analysis. $1.5M raise to capture the $2.8B car sharing market opportunity."
-          keywords="ExotIQ.ai investment, fleet management startup, automotive SaaS investment, car sharing market, venture capital opportunity"
+          title="Investor Portal - Exotiq.ai Investment Opportunity"
+          description="Access Exotiq.ai's investor materials including pitch deck, financial projections, and market analysis. $1.5M raise to capture the $2.8B car sharing market opportunity."
+          keywords="Exotiq.ai investment, fleet management startup, automotive SaaS investment, car sharing market, venture capital opportunity"
           url="https://exotiq.ai/investors"
           noindex={true}
           structuredData={[
@@ -172,8 +228,8 @@ export default function InvestorPage() {
                       </label>
                       <input
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="firstName"
+                        value={formData.firstName}
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
@@ -200,8 +256,8 @@ export default function InvestorPage() {
                     </label>
                     <input
                       type="text"
-                      name="company"
-                      value={formData.company}
+                      name="companyName"
+                      value={formData.companyName}
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
@@ -214,8 +270,8 @@ export default function InvestorPage() {
                         Investment Range *
                       </label>
                       <select
-                        name="investmentRange"
-                        value={formData.investmentRange}
+                        name="investmentAmountRange"
+                        value={formData.investmentAmountRange}
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
@@ -232,8 +288,8 @@ export default function InvestorPage() {
                         Investor Type *
                       </label>
                       <select
-                        name="investorType"
-                        value={formData.investorType}
+                        name="investmentType"
+                        value={formData.investmentType}
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
@@ -273,8 +329,8 @@ export default function InvestorPage() {
                       Investment Timeline *
                     </label>
                     <select
-                      name="timeline"
-                      value={formData.timeline}
+                      name="investmentTimeline"
+                      value={formData.investmentTimeline}
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
@@ -287,12 +343,76 @@ export default function InvestorPage() {
                     </select>
                   </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        placeholder="+1 (555) 123-4567"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Preferred Contact Method *
+                      </label>
+                      <select
+                        name="contactPreference"
+                        value={formData.contactPreference}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                      >
+                        <option value="">Select preference</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Additional Notes
+                    </label>
+                    <textarea
+                      name="additionalNotes"
+                      value={formData.additionalNotes}
+                      onChange={handleInputChange}
+                      rows={3}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                      placeholder="Any additional information about your investment interest..."
+                    />
+                  </div>
+
+                  {submitError && (
+                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                      <p className="text-red-600 dark:text-red-400 text-sm">{submitError}</p>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-accent-600 hover:bg-accent-700 text-white rounded-lg transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2"
+                    disabled={isSubmitting}
+                    className="w-full font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-accent-600 hover:bg-accent-700 disabled:bg-accent-400 text-white rounded-lg transition-all duration-200 hover:scale-105 disabled:scale-100 flex items-center justify-center space-x-2"
                   >
-                    <Mail className="w-5 h-5" />
-                    <span>Send Verification Email</span>
+                    {isSubmitting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        <span>Submitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-5 h-5" />
+                        <span>Send Verification Email</span>
+                      </>
+                    )}
                   </button>
                 </form>
               </div>
@@ -335,10 +455,10 @@ export default function InvestorPage() {
                 <span className="font-inter text-accent-200">Verified Investor Portal</span>
               </div>
               <h1 className="font-space font-bold text-4xl mb-2">
-                Welcome, {formData.name}
+                Welcome, {formData.firstName} {formData.lastName}
               </h1>
               <p className="font-inter text-accent-100">
-                {formData.company} • {formData.investorType}
+                {formData.companyName} • {formData.investmentType}
               </p>
             </div>
             <div className="text-right">
@@ -357,7 +477,7 @@ export default function InvestorPage() {
               Investment Opportunity
             </h2>
             <p className="font-inter text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              ExotIQ is raising $1.5M to build the future of fleet management and capture a $500M+ market opportunity.
+              Exotiq is raising $1.5M to build the future of fleet management and capture a $500M+ market opportunity.
             </p>
           </div>
 
@@ -592,7 +712,7 @@ export default function InvestorPage() {
               <thead className="bg-accent-600 text-white">
                 <tr>
                   <th className="font-space font-semibold text-left p-6">Feature</th>
-                  <th className="font-space font-semibold text-center p-6">ExotIQ</th>
+                  <th className="font-space font-semibold text-center p-6">Exotiq</th>
                   <th className="font-space font-semibold text-center p-6">Generic Fleet Tools</th>
                   <th className="font-space font-semibold text-center p-6">Spreadsheets</th>
                 </tr>
@@ -663,7 +783,10 @@ export default function InvestorPage() {
                 Complete 15-slide presentation covering market opportunity, product demo, 
                 financial projections, and team credentials.
               </p>
-              <button className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-accent-600 hover:bg-accent-700 text-white rounded-lg transition-colors flex items-center space-x-2 mx-auto">
+              <button 
+                onClick={() => window.open('https://invest.exotiq.ai/expanded', '_blank')}
+                className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-accent-600 hover:bg-accent-700 text-white rounded-lg transition-colors flex items-center space-x-2 mx-auto"
+              >
                 <Download className="w-4 h-4" />
                 <span>Download PDF</span>
               </button>
@@ -684,7 +807,6 @@ export default function InvestorPage() {
                 unit economics, and sensitivity analysis.
               </p>
               <button 
-                onClick={handleDataRoomRequest}
                 className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors flex items-center space-x-2 mx-auto"
               >
                 <ExternalLink className="w-4 h-4" />

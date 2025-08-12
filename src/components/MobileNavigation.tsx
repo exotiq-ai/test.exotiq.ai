@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun, Brain, Home, Star, Users, Mail, BarChart3, Building } from 'lucide-react';
+import { Menu, X, Moon, Sun, Home, Brain, BarChart3, Users, Mail, TrendingUp, Building } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import ThemeAwareLogo from './ThemeAwareLogo';
 
 export default function MobileNavigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +13,7 @@ export default function MobileNavigation() {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Platform', href: '/features', icon: BarChart3 },
     { name: 'About', href: '/about', icon: Users },
-    { name: 'Survey', href: '/survey', icon: Star },
+    { name: 'Survey', href: '/survey', icon: TrendingUp },
     { name: 'Invest', href: '/investors', icon: Building },
     { name: 'Contact', href: '/contact', icon: Mail },
   ];
@@ -53,11 +54,7 @@ export default function MobileNavigation() {
         <div className="flex justify-between items-center h-16 px-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <img 
-              src="/Exotiq%20Lockup.png" 
-              alt="ExotIQ.ai" 
-              className="h-8 w-auto transition-all duration-200 group-hover:opacity-80 object-contain"
-            />
+            <ThemeAwareLogo size="mobile" />
           </Link>
 
           {/* Mobile Controls */}

@@ -19,13 +19,13 @@ interface SEOHeadProps {
 }
 
 export default function SEOHead({
-  title = "ExotIQ.ai - AI-Powered Fleet Management for Vehicle Rental Operations",
-  description = "Transform your Turo hosting and vehicle rental business with ExotIQ.ai's AI-powered platform. Automate pricing, maintenance, and operations to scale profitably. Join 20+ operators building the future.",
+  title = "Exotiq.ai - AI-Powered Fleet Management for Vehicle Rental Operations",
+  description = "Transform your Turo hosting and vehicle rental business with Exotiq.ai's AI-powered platform. Automate pricing, maintenance, and operations to scale profitably. Join 20+ operators building the future.",
   keywords = "fleet management software, Turo hosting tools, vehicle rental automation, AI pricing optimization, car sharing platform, fleet analytics, rental business software, automotive SaaS, peer-to-peer car sharing, fleet operations",
-  image = "https://exotiq.ai/Exotiq%20Lockup.png",
+  image = "https://exotiq.ai/your-homepage-snapshot.png",
   url = "https://exotiq.ai",
   type = "website",
-  author = "ExotIQ.ai Team",
+  author = "Exotiq.ai Team",
   publishedTime,
   modifiedTime,
   section,
@@ -34,7 +34,7 @@ export default function SEOHead({
   canonical,
   structuredData
 }: SEOHeadProps) {
-  const fullTitle = title.includes('ExotIQ.ai') ? title : `${title} | ExotIQ.ai`;
+  const fullTitle = title.includes('Exotiq.ai') ? title : `${title} | Exotiq.ai`;
   const currentUrl = canonical || url;
 
   return (
@@ -61,7 +61,7 @@ export default function SEOHead({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={title} />
-      <meta property="og:site_name" content="ExotIQ.ai" />
+      <meta property="og:site_name" content="Exotiq.ai" />
       <meta property="og:locale" content="en_US" />
       
       {/* Article specific */}
@@ -80,14 +80,14 @@ export default function SEOHead({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:image:alt" content={title} />
-      <meta name="twitter:creator" content="@ExotIQai" />
-      <meta name="twitter:site" content="@ExotIQai" />
+      <meta name="twitter:creator" content="@Exotiqai" />
+      <meta name="twitter:site" content="@Exotiqai" />
       
       {/* Additional Meta Tags */}
       <meta name="theme-color" content="#2563eb" />
       <meta name="msapplication-TileColor" content="#2563eb" />
-      <meta name="application-name" content="ExotIQ.ai" />
-      <meta name="apple-mobile-web-app-title" content="ExotIQ.ai" />
+      <meta name="application-name" content="Exotiq.ai" />
+      <meta name="apple-mobile-web-app-title" content="Exotiq.ai" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="mobile-web-app-capable" content="yes" />

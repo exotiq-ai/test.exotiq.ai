@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/Layout';
 import LoadingSpinner from './components/LoadingSpinner';
+import ThemeAwareLogo from './components/ThemeAwareLogo';
 
 // Lazy load page components for better performance
 const HomePage = React.lazy(() => import('./pages/HomePage'));
@@ -22,13 +23,11 @@ const FleetCopilotDemoPage = React.lazy(() => import('./pages/FleetCopilotDemoPa
 const PageLoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-900">
     <div className="text-center">
-      <img 
-        src="/Exotiq%20Lockup.png" 
-        alt="ExotIQ.ai" 
-        className="h-16 w-auto mx-auto mb-6 opacity-80 object-contain"
-      />
+      <div className="mb-6 animate-bounce-subtle">
+        <ThemeAwareLogo size="loading" />
+      </div>
       <LoadingSpinner size="lg" color="primary" />
-      <p className="font-inter text-gray-600 dark:text-gray-400 mt-4">Loading...</p>
+      <p className="font-inter text-gray-600 dark:text-gray-400 mt-4 animate-pulse">Loading...</p>
     </div>
   </div>
 );

@@ -31,9 +31,9 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="pt-16">
       <SEOHead
-        title="Privacy Policy - ExotIQ.ai Data Protection & Privacy"
-        description="Learn how ExotIQ.ai protects your privacy and handles your data. Our comprehensive privacy policy explains data collection, usage, and your rights under GDPR, CCPA, and PIPEDA."
-        keywords="ExotIQ.ai privacy, privacy policy, data protection, GDPR compliance, CCPA compliance, PIPEDA compliance, data usage, user privacy, fleet management privacy"
+        title="Privacy Policy - Exotiq.ai Data Protection & Privacy"
+        description="Learn how Exotiq.ai protects your privacy and handles your data. Our comprehensive privacy policy explains data collection, usage, and your rights under GDPR, CCPA, and PIPEDA."
+        keywords="Exotiq.ai privacy, privacy policy, data protection, GDPR compliance, CCPA compliance, PIPEDA compliance, data usage, user privacy, fleet management privacy"
         url="https://exotiq.ai/privacy"
         structuredData={breadcrumbSchema([
           { name: "Home", url: "https://exotiq.ai" },
@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
                 1. Introduction
               </h2>
               <p>
-                G & G Holdings MT LLC ("ExotIQ.ai," "Company," "we," "us," or "our") is committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website, applications, products, and services (collectively, the "Services").
+                G & G Holdings MT LLC ("Exotiq.ai," "Company," "we," "us," or "our") is committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website, applications, products, and services (collectively, the "Services").
               </p>
               
               <div className="bg-primary-50 dark:bg-primary-900/20 border-l-4 border-primary-600 p-6 my-6">
@@ -664,7 +664,7 @@ export default function PrivacyPolicyPage() {
               <strong>Version:</strong> 1.0
             </p>
             <p className="font-inter text-xs text-gray-500 dark:text-gray-400 italic">
-              This document represents our complete Privacy Policy for ExotIQ.ai. By using our Services, 
+              This document represents our complete Privacy Policy for Exotiq.ai. By using our Services, 
               you acknowledge that you have read, understood, and agree to the practices described herein.
             </p>
           </div>

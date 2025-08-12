@@ -13,7 +13,7 @@ export default function SkeletonLoader({ className = '', count = 1 }: SkeletonLo
           key={index}
           className={`animate-pulse bg-gray-200 dark:bg-dark-700 rounded ${className}`}
           style={{ 
-            backgroundImage: count === 1 && className.includes('logo') ? 'url(/Exotiq%20Lockup.png)' : undefined,
+            backgroundImage: count === 1 && className.includes('logo') ? 'url(/exotiq-logo-lockup.png)' : undefined,
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center'

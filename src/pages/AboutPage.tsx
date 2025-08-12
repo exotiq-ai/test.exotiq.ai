@@ -18,9 +18,9 @@ export default function AboutPage() {
   return (
     <div className="pt-16">
       <SEOHead
-        title="About ExotIQ.ai - Built by Fleet Operators, for Fleet Operators"
-        description="Learn about ExotIQ.ai's founding story, team, and mission to transform fleet management. Built by former Turo hosts who understand the challenges of scaling vehicle rental operations."
-        keywords="ExotIQ.ai team, fleet management company, Turo host founders, automotive SaaS startup, vehicle rental industry, fleet operations experts"
+        title="About Exotiq.ai - Built by Fleet Operators, for Fleet Operators"
+        description="Learn about Exotiq.ai's founding story, team, and mission to transform fleet management. Built by former Turo hosts who understand the challenges of scaling vehicle rental operations."
+        keywords="Exotiq.ai team, fleet management company, Turo host founders, automotive SaaS startup, vehicle rental industry, fleet operations experts"
         url="https://exotiq.ai/about"
         structuredData={[
           organizationSchema,
@@ -41,7 +41,7 @@ export default function AboutPage() {
                 <span className="block text-primary-600">Driver's Seat</span>
               </h1>
               <p className="font-inter text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                ExotIQ is built by former Turo hosts and auto tech entrepreneurs. We've lived the chaos 
+                Exotiq is built by former Turo hosts and auto tech entrepreneurs. We've lived the chaos 
                 of managing growing fleets, and we're building the tools we always wished we had.
               </p>
               <div className="grid grid-cols-2 gap-8">
@@ -102,7 +102,7 @@ export default function AboutPage() {
               </h3>
               <p className="font-inter text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                 With our combined experience in SaaS development and hands-on fleet management, we started 
-                building ExotIQ in 2024. Every feature is battle-tested by real hosts dealing with real problems.
+                building Exotiq in 2024. Every feature is battle-tested by real hosts dealing with real problems.
               </p>
               <p className="font-inter text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                 We're not just building software. We're creating the operating system for the future of 

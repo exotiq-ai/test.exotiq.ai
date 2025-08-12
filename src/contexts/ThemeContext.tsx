@@ -11,15 +11,25 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Check localStorage first, then system preference
-    const saved = localStorage.getItem('theme') as Theme;
-    if (saved) return saved;
+    try {
+      // Check localStorage first, then system preference
+      const saved = localStorage.getItem('theme') as Theme;
+      if (saved) return saved;
+    } catch (error) {
+      // localStorage blocked, fall back to system preference
+      console.warn('localStorage blocked, using system preference');
+    }
     
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (error) {
+      // localStorage blocked, continue without saving
+      console.warn('localStorage blocked, theme preference not saved');
+    }
     
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');

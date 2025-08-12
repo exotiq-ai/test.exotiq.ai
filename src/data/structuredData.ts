@@ -2,8 +2,8 @@
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "ExotIQ.ai",
-  "alternateName": "ExotIQ",
+  "name": "Exotiq.ai",
+  "alternateName": "Exotiq",
   "url": "https://exotiq.ai",
   "logo": "https://exotiq.ai/Exotiq%20Lockup.png",
   "description": "AI-powered fleet management platform for vehicle rental operations, Turo hosting, and car sharing businesses.",
@@ -11,7 +11,7 @@ export const organizationSchema = {
   "founders": [
     {
       "@type": "Person",
-      "name": "ExotIQ.ai Founding Team"
+      "name": "Exotiq.ai Founding Team"
     }
   ],
   "industry": "Software as a Service (SaaS)",
@@ -30,7 +30,7 @@ export const organizationSchema = {
   },
   "sameAs": [
     "https://linkedin.com/company/exotiq-ai",
-    "https://twitter.com/ExotIQai"
+    "https://twitter.com/Exotiqai"
   ],
   "offers": {
     "@type": "Offer",
@@ -42,7 +42,7 @@ export const organizationSchema = {
 export const softwareApplicationSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "ExotIQ.ai Fleet Management Platform",
+  "name": "Exotiq.ai Fleet Management Platform",
   "description": "AI-powered fleet management software that automates pricing, maintenance, and operations for vehicle rental businesses and Turo hosts.",
   "url": "https://exotiq.ai",
   "applicationCategory": "BusinessApplication",
@@ -76,7 +76,7 @@ export const softwareApplicationSchema = {
   "datePublished": "2024-01-01",
   "author": {
     "@type": "Organization",
-    "name": "ExotIQ.ai"
+    "name": "Exotiq.ai"
   }
 };
 
@@ -86,26 +86,26 @@ export const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is ExotIQ.ai?",
+      "name": "What is Exotiq.ai?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ExotIQ.ai is an AI-powered fleet management platform designed specifically for vehicle rental operations, Turo hosts, and car sharing businesses. It automates pricing, maintenance scheduling, and operational tasks to help you scale profitably."
+        "text": "Exotiq.ai is an AI-powered fleet management platform designed specifically for vehicle rental operations, Turo hosts, and car sharing businesses. It automates pricing, maintenance scheduling, and operational tasks to help you scale profitably."
       }
     },
     {
       "@type": "Question",
-      "name": "How much does ExotIQ.ai cost?",
+      "name": "How much does Exotiq.ai cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ExotIQ.ai offers tiered pricing starting at $49/month for up to 5 vehicles, $99/month for up to 20 vehicles, and $199/month for up to 50 vehicles. Enterprise pricing is available for larger fleets."
+        "text": "Exotiq.ai offers tiered pricing starting at $49/month for up to 5 vehicles, $99/month for up to 20 vehicles, and $199/month for up to 50 vehicles. Enterprise pricing is available for larger fleets."
       }
     },
     {
       "@type": "Question",
-      "name": "Which platforms does ExotIQ.ai integrate with?",
+      "name": "Which platforms does Exotiq.ai integrate with?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ExotIQ.ai integrates with major car sharing platforms including Turo, Getaround, and HyreCar. We also support direct bookings through our white-labeled booking portal."
+        "text": "Exotiq.ai integrates with major car sharing platforms including Turo, Getaround, and HyreCar. We also support direct bookings through our white-labeled booking portal."
       }
     },
     {
@@ -145,7 +145,7 @@ export const serviceSchema = {
   "description": "AI-powered fleet management platform for vehicle rental operations",
   "provider": {
     "@type": "Organization",
-    "name": "ExotIQ.ai"
+    "name": "Exotiq.ai"
   },
   "serviceType": "Software as a Service",
   "areaServed": {

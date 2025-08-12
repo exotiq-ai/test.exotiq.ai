@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Brain, Mail, Linkedin, Building, Award, Users } from 'lucide-react';
+import ThemeAwareLogo from './ThemeAwareLogo';
 
 export default function Footer() {
   const scrollToBeta = () => {
@@ -16,12 +17,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="mb-6">
               <Link to="/" className="inline-block">
-                <img 
-                  src="/Exotiq%20Lockup.png" 
-                  alt="ExotIQ.ai" 
-                  className="h-14 w-auto filter brightness-0 invert transition-all duration-300 hover:opacity-80 hover:scale-105 object-contain"
-                  loading="lazy"
-                />
+                <ThemeAwareLogo size="footer" />
               </Link>
             </div>
             <p className="font-inter text-gray-300 max-w-md mb-6">
@@ -110,8 +106,8 @@ export default function Footer() {
         <div className="border-t border-dark-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
-              <p className="font-inter text-gray-400 text-sm">
-                © 2025 ExotIQ Inc. All rights reserved.
+              <p className="font-inter text-sm text-gray-400 text-center">
+                © 2025 Exotiq Inc. All rights reserved.
               </p>
               <div className="flex items-center space-x-4 text-sm mt-2 md:mt-0">
                 <Link to="/terms" className="text-gray-400 hover:text-primary-400 transition-colors font-inter">

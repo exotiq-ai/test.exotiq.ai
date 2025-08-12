@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bot, ArrowLeft, Mic, MessageSquare, Phone, Zap, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
@@ -6,14 +6,18 @@ import { breadcrumbSchema } from '../data/structuredData';
 import { elevenLabsLoader } from '../services/elevenlabsLoader';
 
 export default function FleetCopilotDemoPage() {
+  const [elevenLabsReady, setElevenLabsReady] = useState(false);
+
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
     
     // Load ElevenLabs ConvAI script using centralized loader
-    elevenLabsLoader.loadScript().catch(error => {
-      console.error('Failed to load ElevenLabs script:', error);
-    });
+    elevenLabsLoader.loadScript()
+      .then(() => setElevenLabsReady(true))
+      .catch(error => {
+        console.error('Failed to load ElevenLabs script:', error);
+      });
   }, []);
 
   return (
@@ -128,9 +132,11 @@ export default function FleetCopilotDemoPage() {
             </div>
 
             {/* ElevenLabs Embed */}
-            <div className="flex justify-center mb-12 relative z-10">
-              <elevenlabs-convai agent-id="agent_4301k0sa2925fax92p0dst6hezge"></elevenlabs-convai>
-            </div>
+            {elevenLabsReady && (
+              <div className="flex justify-center mb-12 relative z-10">
+                <elevenlabs-convai agent-id="agent_4301k0sa2925fax92p0dst6hezge"></elevenlabs-convai>
+              </div>
+            )}
             
             {/* Demo info */}
             <div className="bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-2xl p-6 relative z-10">
@@ -167,10 +173,10 @@ export default function FleetCopilotDemoPage() {
               Powered by Advanced AI
             </div>
             <h2 className="font-space font-bold text-3xl md:text-4xl lg:text-5xl text-gray-900 dark:text-white mb-6">
-              FleetCopilot™ in the ExotIQ Platform
+              FleetCopilot™ in the Exotiq Platform
             </h2>
             <p className="font-inter text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-              FleetCopilot™ is integrated throughout the ExotIQ platform, providing intelligent 
+              FleetCopilot™ is integrated throughout the Exotiq platform, providing intelligent 
               assistance for every aspect of your fleet management operation.
             </p>
           </div>
@@ -251,7 +257,7 @@ export default function FleetCopilotDemoPage() {
             Ready to Get FleetCopilot™ for Your Fleet?
           </h2>
           <p className="font-inter text-xl md:text-2xl mb-10 opacity-90 max-w-4xl mx-auto leading-relaxed">
-            Experience the full ExotIQ platform with FleetCopilot™ integrated into every aspect 
+            Experience the full Exotiq platform with FleetCopilot™ integrated into every aspect 
             of your fleet management workflow.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">

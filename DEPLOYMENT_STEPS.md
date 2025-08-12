@@ -1,4 +1,4 @@
-# 🚀 ExotIQ.ai Deployment Steps
+# 🚀 Exotiq.ai Deployment Steps
 
 ## ✅ Pre-Deployment Checklist
 

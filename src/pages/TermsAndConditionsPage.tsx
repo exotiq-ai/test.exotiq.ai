@@ -30,9 +30,9 @@ export default function TermsAndConditionsPage() {
   return (
     <div className="pt-16">
       <SEOHead
-        title="Terms and Conditions - ExotIQ.ai Legal Terms"
-        description="Read ExotIQ.ai's terms and conditions for using our fleet management platform. Understand your rights and responsibilities when using our services."
-        keywords="ExotIQ.ai terms, terms and conditions, legal terms, fleet management terms, user agreement, service terms"
+        title="Terms and Conditions - Exotiq.ai Legal Terms"
+        description="Read Exotiq.ai's terms and conditions for using our fleet management platform. Understand your rights and responsibilities when using our services."
+        keywords="Exotiq.ai terms, terms and conditions, legal terms, fleet management terms, user agreement, service terms"
         url="https://exotiq.ai/terms"
         structuredData={breadcrumbSchema([
           { name: "Home", url: "https://exotiq.ai" },
@@ -47,7 +47,7 @@ export default function TermsAndConditionsPage() {
             Terms and Conditions
           </h1>
           <p className="font-inter text-xl opacity-90">
-            Legal terms and conditions for using ExotIQ.ai services
+            Legal terms and conditions for using Exotiq.ai services
           </p>
         </div>
       </section>
@@ -84,7 +84,7 @@ export default function TermsAndConditionsPage() {
             
             <h2 id="introduction">1. Introduction and Acceptance</h2>
             <p>
-              Welcome to ExotIQ.ai, operated by G & G Holdings MT LLC ("ExotIQ.ai," "Company," "we," "us," or "our"). 
+              Welcome to Exotiq.ai, operated by G & G Holdings MT LLC ("Exotiq.ai," "Company," "we," "us," or "our"). 
               These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User," "you," or "your") 
               and G & G Holdings MT LLC governing your access to and use of our website, applications, products, and services 
               (collectively, the "Services").
@@ -106,7 +106,7 @@ export default function TermsAndConditionsPage() {
             <h3>2.1 Age and Legal Capacity</h3>
             <p>
               You must be at least 18 years old and have the legal capacity to enter into contracts under applicable law. 
-              By using ExotIQ.ai, you represent and warrant that:
+              By using Exotiq.ai, you represent and warrant that:
             </p>
             <ul>
               <li>You are legally able to enter into binding contracts</li>
@@ -129,7 +129,7 @@ export default function TermsAndConditionsPage() {
             <h2 id="services">3. Services Overview and Availability</h2>
             <h3>3.1 Service Description</h3>
             <p>
-              ExotIQ.ai is a comprehensive technology platform offering software-as-a-service (SaaS) tools specifically 
+              Exotiq.ai is a comprehensive technology platform offering software-as-a-service (SaaS) tools specifically 
               designed for vehicle rental operators and hosts, including but not limited to:
             </p>
             <ul>
@@ -376,7 +376,7 @@ export default function TermsAndConditionsPage() {
               <p><strong>Last Updated:</strong> January 2025</p>
               <p><strong>Version:</strong> 1.0</p>
               <p className="mt-4 italic">
-                This document represents the complete Terms and Conditions for ExotIQ.ai. By using our Services, 
+                This document represents the complete Terms and Conditions for Exotiq.ai. By using our Services, 
                 you acknowledge that you have read, understood, and agree to be bound by these Terms.
               </p>
             </div>

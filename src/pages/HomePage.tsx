@@ -70,9 +70,9 @@ export default function HomePage() {
   return (
     <div className="pt-16">
       <SEOHead
-        title="ExotIQ.ai - AI-Powered Fleet Management for Vehicle Rental Operations"
-        description="Transform your Turo hosting and vehicle rental business with ExotIQ.ai's AI-powered platform. Automate pricing, maintenance, and operations to scale profitably. Join 20+ operators building the future."
-        keywords="fleet management software, Turo hosting tools, vehicle rental automation, AI pricing optimization, car sharing platform, fleet analytics, rental business software, automotive SaaS, peer-to-peer car sharing, fleet operations, ExotIQ, fleet management system"
+        title="Exotiq.ai - AI-Powered Fleet Management for Vehicle Rental Operations"
+        description="Transform your Turo hosting and vehicle rental business with Exotiq.ai's AI-powered platform. Automate pricing, maintenance, and operations to scale profitably. Join 20+ operators building the future."
+        keywords="fleet management software, Turo hosting tools, vehicle rental automation, AI pricing optimization, car sharing platform, fleet analytics, rental business software, automotive SaaS, peer-to-peer car sharing, fleet operations, Exotiq, fleet management system"
         url="https://exotiq.ai"
         image="https://exotiq.ai/og-image.jpg"
         structuredData={[organizationSchema, softwareApplicationSchema, faqSchema]}
@@ -84,7 +84,7 @@ export default function HomePage() {
       {/* FleetCopilot™ AI Assistant Section */}
       <FleetCopilotSection />
 
-      {/* Old Way vs. ExotIQ Way Section */}
+      {/* Old Way vs. Exotiq Way Section */}
       <OldVsExotiqSection />
 
       {/* Testimonials Section */}
@@ -99,11 +99,14 @@ export default function HomePage() {
           <div className="text-center">
             <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-accent-600/20 rounded-full text-accent-700 dark:text-accent-300 font-semibold text-xs sm:text-sm mb-4 sm:mb-6 animate-pulse-subtle">
               <Sparkles className="w-3 sm:w-4 h-3 sm:h-4 mr-2" />
-              🚀 Help Build ExotIQ — Get Rewarded
+              🚀 Help Build Exotiq — Get Rewarded
             </div>
-            <h2 className="font-space font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 dark:text-white mb-4 sm:mb-6 animate-slide-up px-2">
-              Help Shape ExotIQ — Get Rewarded
+            <h2 className="font-space font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 dark:text-white mb-6 animate-slide-up">
+              🚀 Help Build Exotiq — Get Rewarded
             </h2>
+            <h3 className="font-space font-bold text-2xl sm:text-3xl md:text-4xl text-gray-900 dark:text-white mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
+              Help Shape Exotiq — Get Rewarded
+            </h3>
             <p className="font-inter text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8 animate-slide-up px-2" style={{ animationDelay: '100ms' }}>
               Take our quick 2-minute survey and receive:
             </p>
@@ -120,7 +123,7 @@ export default function HomePage() {
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="font-space font-semibold text-lg text-gray-900 dark:text-white mb-2">Early Beta Access</h3>
-                <p className="font-inter text-sm text-gray-600 dark:text-gray-300">Be first to try ExotIQ</p>
+                <p className="font-inter text-sm text-gray-600 dark:text-gray-300">Be first to try Exotiq</p>
               </div>
               <div className="bg-white dark:bg-dark-700 p-4 sm:p-6 rounded-xl shadow-lg animate-slide-up" style={{ animationDelay: '400ms' }}>
                 <div className="flex items-center justify-center w-12 h-12 bg-accent-600 rounded-lg mx-auto mb-3">
@@ -150,7 +153,7 @@ export default function HomePage() {
               Ready to Transform Your Fleet?
             </h2>
             <p className="font-inter text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-              Join the growing community of operators who are scaling smarter with ExotIQ. 
+              Join the growing community of operators who are scaling smarter with Exotiq. 
               Let's discuss how our platform can accelerate your growth.
             </p>
             <a

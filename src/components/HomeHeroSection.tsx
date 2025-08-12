@@ -26,8 +26,8 @@ const HomeHeroSection: React.FC<HomeHeroSectionProps> = ({ isVisible, scrollToSe
             AI Fleet Intelligence That Saves Time
             <span className="block text-primary-400 animate-gradient-text">and Accelerates Growth</span>
           </h1>
-          <p className="font-inter text-lg sm:text-xl md:text-2xl text-gray-200 mb-4 sm:mb-6 max-w-4xl mx-auto leading-relaxed px-2">
-            ExotIQ replaces 15+ hours of manual work each week with intelligent automation, so you can focus on growing your business while we handle pricing, availability, maintenance, and messaging.
+          <p className="font-inter text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8 sm:mb-12 animate-slide-up px-4" style={{ animationDelay: '200ms' }}>
+            Exotiq replaces 15+ hours of manual work each week with intelligent automation, so you can focus on growing your business while we handle pricing, availability, maintenance, and messaging.
           </p>
           <p className="font-inter text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 italic">
             We've walked in your shoes. Now we're using AI to make the road smoother for everyone.

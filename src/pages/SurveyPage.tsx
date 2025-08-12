@@ -270,8 +270,8 @@ export default function SurveyPage() {
     return (
       <div className="pt-16">
         <SEOHead
-          title="Fleet Management Survey - Help Shape ExotIQ.ai"
-          description="Share your fleet management experience and help shape ExotIQ.ai's development. Choose from surveys for small fleets (1-5 vehicles), scaling operations (6-50 vehicles), or exotic/luxury fleets."
+          title="Fleet Management Survey - Help Shape Exotiq.ai"
+          description="Share your fleet management experience and help shape Exotiq.ai's development. Choose from surveys for small fleets (1-5 vehicles), scaling operations (6-50 vehicles), or exotic/luxury fleets."
           keywords="fleet management survey, Turo host feedback, vehicle rental insights, fleet operations research, automotive industry survey"
           url="https://exotiq.ai/survey"
           structuredData={breadcrumbSchema([
@@ -284,7 +284,7 @@ export default function SurveyPage() {
         <section className="py-20 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-dark-800 dark:to-dark-900">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="font-space font-bold text-5xl md:text-6xl text-gray-900 dark:text-white mb-6">
-              Help Shape ExotIQ
+              Help Shape Exotiq
             </h1>
             <p className="font-inter text-xl text-gray-600 dark:text-gray-300 mb-8">
               Your insights directly influence our product roadmap. Choose the survey that best 
