@@ -1,4 +1,5 @@
 // Conversation persistence service for maintaining chat history across sessions
+import logger from '../utils/logger';
 
 export interface PersistedMessage {
   id: string;
@@ -48,7 +49,7 @@ class PersistenceService {
       
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(conversations));
     } catch (error) {
-      console.warn('Failed to save conversation:', error);
+      logger.warn('Failed to save conversation', { error });
     }
   }
 
@@ -71,7 +72,7 @@ class PersistenceService {
       
       return null;
     } catch (error) {
-      console.warn('Failed to load conversation:', error);
+      logger.warn('Failed to load conversation', { error, sessionId });
       return null;
     }
   }
@@ -168,7 +169,7 @@ class PersistenceService {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       return stored ? JSON.parse(stored) : [];
     } catch (error) {
-      console.warn('Failed to load conversations:', error);
+      logger.warn('Failed to load conversations', { error });
       return [];
     }
   }

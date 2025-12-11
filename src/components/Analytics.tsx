@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import logger from '../utils/logger';
 
 declare global {
   interface Window {
@@ -18,42 +19,46 @@ export default function Analytics({ trackingId = 'G-XXXXXXXXXX' }: AnalyticsProp
       return;
     }
 
-    // Google Analytics 4
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${trackingId}`;
-    document.head.appendChild(script1);
+    try {
+      // Google Analytics 4
+      const script1 = document.createElement('script');
+      script1.async = true;
+      script1.src = `https://www.googletagmanager.com/gtag/js?id=${trackingId}`;
+      document.head.appendChild(script1);
 
-    const script2 = document.createElement('script');
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${trackingId}', {
-        page_title: document.title,
-        page_location: window.location.href,
-        send_page_view: true
-      });
-    `;
-    document.head.appendChild(script2);
-
-    // Track page views
-    const handleRouteChange = () => {
-      if (window.gtag) {
-        window.gtag('config', trackingId, {
+      const script2 = document.createElement('script');
+      script2.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${trackingId}', {
           page_title: document.title,
           page_location: window.location.href,
           send_page_view: true
         });
-      }
-    };
+      `;
+      document.head.appendChild(script2);
 
-    // Listen for route changes (for SPA)
-    window.addEventListener('popstate', handleRouteChange);
+      // Track page views
+      const handleRouteChange = () => {
+        if (window.gtag) {
+          window.gtag('config', trackingId, {
+            page_title: document.title,
+            page_location: window.location.href,
+            send_page_view: true
+          });
+        }
+      };
 
-    return () => {
-      window.removeEventListener('popstate', handleRouteChange);
-    };
+      // Listen for route changes (for SPA)
+      window.addEventListener('popstate', handleRouteChange);
+
+      return () => {
+        window.removeEventListener('popstate', handleRouteChange);
+      };
+    } catch (error) {
+      logger.warn('Failed to initialize Google Analytics', { error });
+    }
   }, [trackingId]);
 
   return null;

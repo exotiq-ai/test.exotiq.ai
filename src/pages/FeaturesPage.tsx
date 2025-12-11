@@ -41,6 +41,7 @@ import SEOHead from '../components/SEOHead';
 import LazyImage from '../components/LazyImage';
 import { softwareApplicationSchema, breadcrumbSchema } from '../data/structuredData';
 import { elevenLabsLoader } from '../services/elevenlabsLoader';
+import logger from '../utils/logger';
 
 const FeatureCard = ({ 
   icon: Icon, 
@@ -110,6 +111,7 @@ export default function FeaturesPage() {
   const [activeTab, setActiveTab] = useState('motoriq');
   const [showConvAI, setShowConvAI] = useState(false);
   const [elevenLabsReady, setElevenLabsReady] = useState(false);
+  const [isStickyNav, setIsStickyNav] = useState(false);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -120,7 +122,7 @@ export default function FeaturesPage() {
   useEffect(() => {
     elevenLabsLoader.loadScript()
       .then(() => setElevenLabsReady(true))
-      .catch(error => console.error('Failed to load ElevenLabs script:', error));
+      .catch(error => logger.error('Failed to load ElevenLabs script', { error }));
   }, []);
 
   const tabs = [
@@ -155,6 +157,18 @@ export default function FeaturesPage() {
     handleScroll(); // Check initial position
 
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Track when nav bar should show enhanced styling
+  useEffect(() => {
+    const handleScrollNav = () => {
+      setIsStickyNav(window.scrollY > 600); // Enhance after scrolling past hero
+    };
+
+    window.addEventListener('scroll', handleScrollNav, { passive: true });
+    handleScrollNav(); // Check initial position
+
+    return () => window.removeEventListener('scroll', handleScrollNav);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -205,13 +219,13 @@ export default function FeaturesPage() {
               scale, automate, and optimize your car-sharing business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button
-                onClick={() => window.location.href = '/survey'}
+              <Link
+                to="/survey"
                 className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center min-h-[44px] touch-manipulation"
               >
                 <span>Choose your fleet type to access the correct beta survey</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
               <button className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white rounded-lg transition-all duration-200 hover:scale-105">
                 Watch Demo
               </button>
@@ -224,23 +238,31 @@ export default function FeaturesPage() {
             </div>
           </div>
 
-          {/* Feature Navigation Tabs - Now Sticky */}
-          <div className="sticky top-20 z-40 bg-white/95 dark:bg-dark-800/95 backdrop-blur-md rounded-2xl p-2 shadow-xl border border-gray-200 dark:border-dark-700">
-            <div className="flex flex-wrap justify-center gap-2">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => scrollToSection(tab.id)}
-                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-inter font-medium transition-all duration-300 ${
-                    activeTab === tab.id
-                      ? 'bg-primary-600 text-white shadow-lg scale-105'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 hover:scale-105'
-                  }`}
-                >
-                  <tab.icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </button>
-              ))}
+          {/* Feature Navigation Tabs - Enhanced Floating Sticky */}
+          <div className={`sticky top-16 z-50 transition-all duration-500 ${
+            isStickyNav 
+              ? 'bg-white/95 dark:bg-dark-900/95 shadow-2xl backdrop-blur-xl border-b-2 border-primary-200 dark:border-primary-800' 
+              : 'bg-white/90 dark:bg-dark-800/90 shadow-lg backdrop-blur-md'
+          } rounded-b-2xl mx-4 mb-8 border border-gray-200 dark:border-dark-700 ${
+            isStickyNav ? 'scale-[0.97] mt-2' : 'scale-100'
+          }`}>
+            <div className="max-w-7xl mx-auto px-4 py-3">
+              <div className="flex flex-wrap justify-center gap-2">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => scrollToSection(tab.id)}
+                    className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-inter font-medium transition-all duration-300 ${
+                      activeTab === tab.id
+                        ? 'bg-primary-600 text-white shadow-lg scale-105 ring-2 ring-primary-300 dark:ring-primary-700'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 hover:scale-105'
+                    }`}
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -416,12 +438,49 @@ export default function FeaturesPage() {
           />
           <FeatureCard
             icon={DollarSign}
-            title="Commission-Free Reservations"
-            description="Keep 100% of your revenue with direct bookings. No platform fees, no commission cuts."
+            title="Zero Commission Fees"
+            description="Keep every dollar from direct bookings (just pay your SaaS subscription). Zero commission fees on your bookings."
             badge="100% Revenue"
             color="success"
             delay={200}
           />
+          <FeatureCard
+            icon={TrendingUp}
+            title="SEO Optimized"
+            description="Built-in marketing tools to drive organic traffic and increase direct bookings."
+            badge="Marketing Tools"
+            color="primary"
+            delay={300}
+          />
+          <FeatureCard
+            icon={CreditCard}
+            title="Integrated Payment Processing"
+            description="Secure, instant payments with seamless checkout experience for your customers."
+            badge="Secure Payments"
+            color="accent"
+            delay={400}
+          />
+        </div>
+
+        {/* Savings Example Callout */}
+        <div className="mt-12 bg-success-50 dark:bg-success-900/20 border-2 border-success-200 dark:border-success-800 rounded-xl p-6 sm:p-8">
+            <div className="flex items-start space-x-4">
+              <DollarSign className="w-8 h-8 text-success-600 dark:text-success-400 flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="font-space font-bold text-xl text-gray-900 dark:text-white mb-3">
+                  Example Savings
+                </h4>
+              <p className="font-inter text-gray-700 dark:text-gray-300 mb-2">
+                $50,000 in annual bookings on Turo = $12,500-$17,500 in platform fees
+              </p>
+              <p className="font-inter text-gray-700 dark:text-gray-300 mb-2">
+                Same bookings through Exotiq Book = $0 in commissions (just $99-199/mo subscription)
+              </p>
+              <p className="font-space font-bold text-lg text-success-700 dark:text-success-400 mt-4">
+                Your savings: $12,000-$16,800 per year
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Book Website Preview */}
@@ -671,13 +730,13 @@ export default function FeaturesPage() {
             Be among the first to experience the future of fleet management. Join our exclusive beta program.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => window.location.href = '/survey'}
+            <Link
+              to="/survey"
               className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center"
             >
               <span>Choose your fleet type to access the correct beta survey</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
             <Link
               to="/contact"
               className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-dark-900 rounded-lg transition-all duration-200 hover:scale-105 min-h-[44px] flex items-center justify-center touch-manipulation"

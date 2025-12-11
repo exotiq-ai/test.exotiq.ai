@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bot, Phone, TrendingUp, Wrench, MessageSquare } from 'lucide-react';
 import { MobileSection, MobileContainer } from './MobileOptimizations';
+import SectionSkeleton from './SectionSkeleton';
 
-const FleetCopilotSection: React.FC = () => (
+const FleetCopilotSection: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate section load after a brief delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <MobileSection className="bg-gradient-to-br from-accent-600 via-accent-700 to-primary-700">
+        <SectionSkeleton variant="fleetcopilot" />
+      </MobileSection>
+    );
+  }
+
+  return (
   <MobileSection className="bg-gradient-to-br from-accent-600 via-accent-700 to-primary-700 text-white relative overflow-hidden">
     {/* Background Pattern */}
     <div className="absolute inset-0 opacity-10">
@@ -10,9 +31,9 @@ const FleetCopilotSection: React.FC = () => (
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       }}></div>
     </div>
-    <MobileContainer className="relative z-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-        <div className="animate-slide-up order-2 lg:order-1">
+    <MobileContainer className="relative z-10 py-16 md:py-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 items-center">
+        <div className="animate-slide-up order-1">
           <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white font-semibold text-sm mb-6">
             <Bot className="w-4 h-4 mr-2" />
             Meet FleetCopilot™ AI
@@ -59,7 +80,7 @@ const FleetCopilotSection: React.FC = () => (
           </div>
         </div>
         {/* AI Assistant Visualization */}
-        <div className="relative animate-slide-up order-1 lg:order-2" style={{ animationDelay: '100ms' }}>
+        <div className="relative animate-slide-up order-2" style={{ animationDelay: '100ms' }}>
           {/* Voice Assistant Call-to-Action */}
           <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
             <div className="space-y-4">
@@ -106,6 +127,7 @@ const FleetCopilotSection: React.FC = () => (
       </div>
     </MobileContainer>
   </MobileSection>
-);
+  );
+};
 
 export default FleetCopilotSection; 

@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Cookie, Settings, X, Check } from 'lucide-react';
+import { apolloService } from '../services/apollo';
+import logger from '../utils/logger';
 
 interface CookiePreferences {
   essential: boolean;
@@ -56,7 +58,7 @@ export default function CookieConsentBanner() {
       }
     } catch (error) {
       // localStorage blocked, show banner
-      console.warn('localStorage blocked, showing cookie banner');
+      logger.warn('localStorage blocked, showing cookie banner', { error });
       setShowBanner(true);
     }
   }, []);
@@ -73,7 +75,7 @@ export default function CookieConsentBanner() {
       applyPreferences(prefsWithTimestamp);
     } catch (error) {
       // localStorage blocked, continue without saving
-      console.warn('localStorage blocked, preferences not saved');
+      logger.warn('localStorage blocked, preferences not saved', { error });
       setPreferences(newPreferences);
       applyPreferences(newPreferences);
     }
@@ -103,53 +105,79 @@ export default function CookieConsentBanner() {
 
   const loadGoogleAnalytics = () => {
     if (typeof window !== 'undefined' && !window.gtag) {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GA_MEASUREMENT_ID || 'GA_MEASUREMENT_ID'}`;
-      document.head.appendChild(script);
+      try {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GA_MEASUREMENT_ID || 'GA_MEASUREMENT_ID'}`;
+        document.head.appendChild(script);
 
-      window.dataLayer = window.dataLayer || [];
-      function gtag(...args: any[]) { window.dataLayer.push(args); }
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', import.meta.env.VITE_GA_MEASUREMENT_ID || 'GA_MEASUREMENT_ID', {
-        anonymize_ip: true,
-        cookie_flags: 'SameSite=None;Secure'
-      });
+        window.dataLayer = window.dataLayer || [];
+        function gtag(...args: any[]) { window.dataLayer.push(args); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', import.meta.env.VITE_GA_MEASUREMENT_ID || 'GA_MEASUREMENT_ID', {
+          anonymize_ip: true,
+          cookie_flags: window.location.protocol === 'https:' ? 'SameSite=None;Secure' : 'SameSite=Lax'
+        });
+      } catch (error) {
+        logger.warn('Failed to load Google Analytics', { error });
+      }
     }
   };
 
   const loadMixpanel = () => {
     if (typeof window !== 'undefined' && !(window as any).mixpanel && import.meta.env.VITE_MIXPANEL_TOKEN) {
       // Mixpanel implementation would go here
-      console.log('Mixpanel analytics enabled');
+      logger.debug('Mixpanel analytics enabled');
     }
   };
 
   const loadMarketingCookies = () => {
     // Facebook Pixel, Google Ads, LinkedIn Insight Tag implementation
-    console.log('Marketing cookies enabled');
+    logger.debug('Marketing cookies enabled');
+    
+    // Initialize Apollo tracking if marketing cookies are enabled
+    try {
+      apolloService.updateCookieConsent(true);
+    } catch (error) {
+      logger.warn('Failed to initialize Apollo tracking', { error });
+    }
   };
 
   const disableAnalytics = () => {
     if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('consent', 'update', {
-        'analytics_storage': 'denied'
-      });
+      try {
+        window.gtag('consent', 'update', {
+          'analytics_storage': 'denied'
+        });
+      } catch (error) {
+        logger.warn('Failed to disable analytics', { error });
+      }
     }
   };
 
   const disableMarketing = () => {
     if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('consent', 'update', {
-        'ad_storage': 'denied'
-      });
+      try {
+        window.gtag('consent', 'update', {
+          'ad_storage': 'denied'
+        });
+      } catch (error) {
+        logger.warn('Failed to disable marketing', { error });
+      }
+    }
+    
+    // Disable Apollo tracking if marketing cookies are disabled
+    try {
+      apolloService.updateCookieConsent(false);
+    } catch (error) {
+      logger.warn('Failed to disable Apollo tracking', { error });
     }
   };
 
   const enableFunctionalFeatures = () => {
     // Enable preference saving, theme persistence, etc.
-    console.log('Functional cookies enabled');
+    logger.debug('Functional cookies enabled');
   };
 
   const acceptAll = () => {

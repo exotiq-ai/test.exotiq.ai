@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import logger from '../utils/logger';
 
 interface AccessibilityContextType {
   highContrast: boolean;
@@ -40,7 +41,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
       // Apply preferences
       applyAccessibilityPreferences(savedHighContrast, savedReducedMotion, savedFontSize);
     } catch (error) {
-      console.warn('Failed to load accessibility preferences:', error);
+      logger.warn('Failed to load accessibility preferences', { error });
     }
   }, []);
 
@@ -79,7 +80,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
       localStorage.setItem('exotiq_high_contrast', newValue.toString());
       applyAccessibilityPreferences(newValue, reducedMotion, fontSize);
     } catch (error) {
-      console.warn('Failed to save high contrast preference:', error);
+      logger.warn('Failed to save high contrast preference', { error });
     }
   };
 
@@ -91,7 +92,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
       localStorage.setItem('exotiq_reduced_motion', newValue.toString());
       applyAccessibilityPreferences(highContrast, newValue, fontSize);
     } catch (error) {
-      console.warn('Failed to save reduced motion preference:', error);
+      logger.warn('Failed to save reduced motion preference', { error });
     }
   };
 
@@ -102,7 +103,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
       localStorage.setItem('exotiq_font_size', size);
       applyAccessibilityPreferences(highContrast, reducedMotion, size);
     } catch (error) {
-      console.warn('Failed to save font size preference:', error);
+      logger.warn('Failed to save font size preference', { error });
     }
   };
 
@@ -116,6 +117,16 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
     const handleKeyDown = (event: KeyboardEvent) => {
       // Skip if user is typing in an input
       if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      // Skip if user has text selected (they want to copy)
+      if (window.getSelection()?.toString().length > 0) {
+        return;
+      }
+
+      // Only handle navigation shortcuts with Ctrl/Cmd + Shift to avoid conflicts
+      if (!event.shiftKey) {
         return;
       }
 

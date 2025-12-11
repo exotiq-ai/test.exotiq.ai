@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   TrendingUp, 
   Users, 
@@ -25,6 +26,7 @@ import {
 } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import { organizationSchema, breadcrumbSchema } from '../data/structuredData';
+import logger from '../utils/logger';
 
 interface InvestorFormData {
   firstName: string;
@@ -117,7 +119,7 @@ export default function InvestorPage() {
         throw new Error(result.error || 'Failed to submit investor form');
       }
 
-      console.log('Investor submission successful:', result.investorId);
+      logger.info('Investor submission successful', { investorId: result.investorId });
       setEmailSent(true);
       
       // Simulate email verification after 3 seconds (for demo purposes)
@@ -126,7 +128,7 @@ export default function InvestorPage() {
       }, 3000);
 
     } catch (error) {
-      console.error('Investor submission error:', error);
+      logger.error('Investor submission error', { error });
       setSubmitError(error instanceof Error ? error.message : 'An error occurred while submitting the form');
     } finally {
       setIsSubmitting(false);
@@ -203,6 +205,276 @@ export default function InvestorPage() {
             <div className="flex items-center justify-center space-x-2 text-accent-400 mb-8">
               <Lock className="w-5 h-5" />
               <span className="font-inter">Qualified Investors Only</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Executive Summary */}
+        <section className="py-20 bg-gray-50 dark:bg-dark-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="font-space font-bold text-4xl text-gray-900 dark:text-white mb-4">
+                Investment Opportunity
+              </h2>
+              <p className="font-inter text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Exotiq is raising $1.5M to capture a dominant position in the $11B+ vehicle rental management market, starting with the fastest-growing segment: peer-to-peer car sharing.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="text-4xl font-space font-bold text-accent-600 mb-2">$1.5M</div>
+                <div className="font-inter text-gray-600 dark:text-gray-400">Fundraising Goal</div>
+              </div>
+              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="text-4xl font-space font-bold text-accent-600 mb-2">$2.8B</div>
+                <div className="font-inter text-gray-600 dark:text-gray-400">Market by 2027</div>
+              </div>
+              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="text-4xl font-space font-bold text-accent-600 mb-2">40%</div>
+                <div className="font-inter text-gray-600 dark:text-gray-400">YoY Growth</div>
+              </div>
+              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="text-4xl font-space font-bold text-accent-600 mb-2">100K+</div>
+                <div className="font-inter text-gray-600 dark:text-gray-400">Target Hosts</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="flex items-center justify-center w-12 h-12 bg-primary-600 rounded-lg mb-4">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-space font-semibold text-xl text-gray-900 dark:text-white mb-2">
+                  Early Traction & Validation
+                </h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-start space-x-2">
+                    <span className="font-semibold text-gray-900 dark:text-white">📊 85% beta signup → activation rate</span>
+                    <span className="text-gray-600 dark:text-gray-400">(vs. industry average of 30%)</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <span className="font-semibold text-gray-900 dark:text-white">🤝 Signed agreements</span>
+                    <span className="text-gray-600 dark:text-gray-400">with Arizona rental operators managing 250-vehicle fleet</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <span className="font-semibold text-gray-900 dark:text-white">$12K MRR</span>
+                    <span className="text-gray-600 dark:text-gray-400">from first 20 beta customers (pre-official launch)</span>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <span className="font-semibold text-gray-900 dark:text-white">⭐ 4.8/5.0</span>
+                    <span className="text-gray-600 dark:text-gray-400">average satisfaction score from beta users</span>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="flex items-center justify-center w-12 h-12 bg-success-600 rounded-lg mb-4">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-space font-semibold text-xl text-gray-900 dark:text-white mb-2">
+                  Guaranteed ROI Model
+                </h3>
+                <p className="font-inter text-gray-600 dark:text-gray-300">
+                  25% savings on platform fees plus 15-25% maintenance cost reduction equals immediate value proposition.
+                </p>
+              </div>
+              <div className="bg-white dark:bg-dark-700 p-6 rounded-xl">
+                <div className="flex items-center justify-center w-12 h-12 bg-accent-600 rounded-lg mb-4">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-space font-semibold text-xl text-gray-900 dark:text-white mb-2">
+                  Purpose-Built Competitive Moat
+                </h3>
+                <p className="font-inter text-gray-600 dark:text-gray-300 mb-3">
+                  While generic fleet management tools exist, none are purpose-built for P2P hosts' unique challenges: multi-platform management, peer-to-peer insurance compliance, and hyperlocal market pricing. Our founder insight + proprietary data network = 2-3 year head start on competition.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success-600 mt-0.5 flex-shrink-0" />
+                    <span>Built by former Turo Power Hosts who lived the pain</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success-600 mt-0.5 flex-shrink-0" />
+                    <span>Proprietary pricing algorithm trained on 10,000+ P2P bookings</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success-600 mt-0.5 flex-shrink-0" />
+                    <span>Only platform with native Turo/Getaround/HyreCar integrations</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-4 h-4 text-success-600 mt-0.5 flex-shrink-0" />
+                    <span>Network effects: More hosts = better AI predictions for everyone</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-12 text-center">
+              <p className="font-inter text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4">
+                Want to see the full pitch deck and financial projections? Request access below.
+              </p>
+              <a
+                href="https://deck.exotiq.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 bg-accent-600 hover:bg-accent-700 text-white rounded-lg transition-all duration-200 hover:scale-105 space-x-2"
+              >
+                <ExternalLink className="w-5 h-5" />
+                <span>View Full Deck</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Business Model Clarity Section */}
+        <section className="py-20 bg-gray-50 dark:bg-dark-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="font-space font-bold text-4xl text-gray-900 dark:text-white mb-4">
+                Revenue Model & Unit Economics
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {/* Column 1: Traditional Fleet Operators */}
+              <div className="bg-white dark:bg-dark-700 p-8 rounded-xl">
+                <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-4">
+                  For Traditional Fleet Operators
+                </h3>
+                <h4 className="font-space font-semibold text-xl text-primary-600 dark:text-primary-400 mb-3">
+                  Pure SaaS Business Model
+                </h4>
+                <p className="font-inter text-gray-600 dark:text-gray-300 mb-4">
+                  Operators pay $49-$199/mo subscription based on fleet size.
+                </p>
+                <p className="font-inter text-gray-600 dark:text-gray-300">
+                  We don't take booking commissions—operators keep 100% of rental revenue.
+                </p>
+                <p className="font-inter text-gray-600 dark:text-gray-300 mt-4 font-semibold">
+                  This aligns our incentives: we win when they grow.
+                </p>
+              </div>
+
+              {/* Column 2: P2P Hosts */}
+              <div className="bg-white dark:bg-dark-700 p-8 rounded-xl">
+                <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-4">
+                  For P2P Hosts
+                </h3>
+                <h4 className="font-space font-semibold text-xl text-accent-600 dark:text-accent-400 mb-3">
+                  Hybrid SaaS + Transaction Model
+                </h4>
+                <p className="font-inter text-gray-600 dark:text-gray-300 mb-4">
+                  Low monthly SaaS fee + 2% transaction fee on direct bookings.
+                </p>
+                <p className="font-inter text-gray-600 dark:text-gray-300 mb-4">
+                  (Compare to Turo's 25-35% platform fees)
+                </p>
+                <p className="font-inter text-gray-600 dark:text-gray-300 font-semibold">
+                  Projected blended ARPU: $475/month at scale.
+                </p>
+              </div>
+            </div>
+
+            {/* Key Metrics Box */}
+            <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-xl p-8">
+              <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-6 text-center">
+                Unit Economics at Scale
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+                <div>
+                  <div className="text-2xl font-space font-bold text-primary-600 dark:text-primary-400 mb-2">$450</div>
+                  <div className="font-inter text-sm text-gray-600 dark:text-gray-400">CAC</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-space font-bold text-primary-600 dark:text-primary-400 mb-2">$8,500</div>
+                  <div className="font-inter text-sm text-gray-600 dark:text-gray-400">LTV</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-space font-bold text-success-600 dark:text-success-400 mb-2">18.9:1</div>
+                  <div className="font-inter text-sm text-gray-600 dark:text-gray-400">LTV:CAC</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-space font-bold text-success-600 dark:text-success-400 mb-2">87%</div>
+                  <div className="font-inter text-sm text-gray-600 dark:text-gray-400">Gross Margin</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-space font-bold text-success-600 dark:text-success-400 mb-2">&lt;3%</div>
+                  <div className="font-inter text-sm text-gray-600 dark:text-gray-400">Monthly Churn</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Go-to-Market Strategy Section */}
+        <section className="py-20 bg-white dark:bg-dark-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="font-space font-bold text-4xl text-gray-900 dark:text-white mb-4">
+                Path to 100K Hosts: Our 4-Phase Growth Plan
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Phase 1 */}
+              <div className="bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 p-6 rounded-xl border border-primary-200 dark:border-primary-800">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-primary-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                  <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white">Phase 1 (2024-Q4)</h3>
+                </div>
+                <p className="font-space font-semibold text-gray-900 dark:text-white mb-3">Validate & Refine</p>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <li>• 100 beta hosts across 5 major markets</li>
+                  <li>• Validate product-market fit</li>
+                  <li>• Refine core modules based on user feedback</li>
+                  <li>• Achieve $15K MRR</li>
+                </ul>
+              </div>
+
+              {/* Phase 2 */}
+              <div className="bg-gradient-to-br from-accent-50 to-success-50 dark:from-accent-900/20 dark:to-success-900/20 p-6 rounded-xl border border-accent-200 dark:border-accent-800">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-accent-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                  <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white">Phase 2 (2025)</h3>
+                </div>
+                <p className="font-space font-semibold text-gray-900 dark:text-white mb-3">Community-Led Growth</p>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <li>• 1,000 hosts via Turo Power Host community</li>
+                  <li>• Launch host referral program (20% revenue share for 12 months)</li>
+                  <li>• Content marketing: SEO-optimized guides</li>
+                  <li>• Target: $125K MRR</li>
+                </ul>
+              </div>
+
+              {/* Phase 3 */}
+              <div className="bg-gradient-to-br from-success-50 to-warning-50 dark:from-success-900/20 dark:to-warning-900/20 p-6 rounded-xl border border-success-200 dark:border-success-800">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-success-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                  <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white">Phase 3 (2026)</h3>
+                </div>
+                <p className="font-space font-semibold text-gray-900 dark:text-white mb-3">Strategic Partnerships</p>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <li>• 10,000 hosts through insurance provider partnerships</li>
+                  <li>• White-label solution for rental associations</li>
+                  <li>• Expand to traditional independent rental operators</li>
+                  <li>• Target: $1.2M MRR</li>
+                </ul>
+              </div>
+
+              {/* Phase 4 */}
+              <div className="bg-gradient-to-br from-warning-50 to-primary-50 dark:from-warning-900/20 dark:to-primary-900/20 p-6 rounded-xl border border-warning-200 dark:border-warning-800">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-warning-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                  <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white">Phase 4 (2027+)</h3>
+                </div>
+                <p className="font-space font-semibold text-gray-900 dark:text-white mb-3">Market Expansion</p>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <li>• International expansion (Canada, UK, Australia)</li>
+                  <li>• Enterprise solution for traditional rental agencies</li>
+                  <li>• Strategic acquisition targets for faster market penetration</li>
+                  <li>• Target: $5M+ MRR</li>
+                </ul>
+              </div>
             </div>
           </div>
         </section>
@@ -837,13 +1109,13 @@ export default function InvestorPage() {
               <Calendar className="w-5 h-5" />
               <span>Schedule Call</span>
             </button>
-            <button 
-              onClick={() => window.location.href = '/contact'}
+            <Link 
+              to="/contact"
               className="font-poppins font-bold text-sm uppercase tracking-wide px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-accent-600 rounded-lg transition-all duration-200 hover:scale-105 flex items-center space-x-2 justify-center min-h-[44px] touch-manipulation"
             >
               <Mail className="w-5 h-5" />
               <span>Send Questions</span>
-            </button>
+            </Link>
           </div>
           <p className="font-inter text-sm opacity-75 mt-6">
             Confidential and proprietary information. For qualified investors only.

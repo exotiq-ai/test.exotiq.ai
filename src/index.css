@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design System Variables - 4px/8px Base Grid */
+:root {
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 3rem;      /* 48px */
+  --spacing-3xl: 4rem;      /* 64px */
+  
+  /* Premium shadow system */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  
+  /* Easing functions */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
+
 /* Mobile-specific optimizations */
 @layer base {
   /* Improve touch targets on mobile */
@@ -27,6 +55,26 @@
   /* Smooth scrolling for all devices */
   html {
     scroll-behavior: smooth;
+    /* Better scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+  
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  html::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  html::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 4px;
+  }
+  
+  html::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.7);
   }
   
   /* Improve text rendering */
@@ -34,17 +82,63 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Premium font rendering */
+    font-feature-settings: "kern" 1, "liga" 1;
   }
   
-  /* Better focus indicators for accessibility */
+  /* Better focus indicators for accessibility - Enhanced */
   *:focus-visible {
     @apply outline-2 outline-offset-2 outline-primary-600;
+    outline-style: solid;
+    transition: outline-offset 0.2s var(--ease-out);
+  }
+  
+  /* Enhanced focus states */
+  button:focus-visible,
+  a:focus-visible {
+    @apply ring-2 ring-primary-600 ring-offset-2;
   }
   
   /* Improve logo rendering */
   img[alt*="Exotiq"] {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
+  }
+
+  /* Enhanced text contrast for better readability */
+  .text-high-contrast {
+    @apply text-gray-900 dark:text-gray-50;
+  }
+  
+  .text-medium-contrast {
+    @apply text-gray-800 dark:text-gray-100;
+  }
+  
+  .text-subtle {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+  
+  /* Improved dark mode text hierarchy */
+  .dark .text-primary {
+    @apply text-primary-400;
+  }
+  
+  .dark .text-secondary {
+    @apply text-gray-200;
+  }
+  
+  .dark .text-muted {
+    @apply text-gray-300;
+  }
+  
+  /* Enhanced button shadows for better depth */
+  .btn-elevated {
+    @apply shadow-lg hover:shadow-xl transition-shadow duration-200;
+  }
+  
+  /* Improved backdrop blur for headers */
+  .header-backdrop {
+    @apply bg-white/90 dark:bg-dark-900/95 backdrop-blur-md;
   }
 }
 
@@ -240,6 +334,19 @@
   }
   50% {
     opacity: .5;
+  }
+}
+
+.animate-gradient-shift {
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
@@ -503,5 +610,29 @@
     border-color: #000000 !important;
     outline: 3px solid #000000 !important;
     outline-offset: 2px !important;
+  }
+}
+
+/* Hero Image Carousel Animations */
+@keyframes progress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-shimmer,
+  .animate-gradient-shift,
+  .animate-bounce-subtle,
+  .animate-progress {
+    animation: none !important;
+  }
+  
+  picture img {
+    transition: none !important;
   }
 }

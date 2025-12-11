@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SurveyService } from '../services/surveyService';
 import { supabase } from '../services/supabaseClient';
+import logger from '../utils/logger';
 
 export default function SurveyDebug() {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -27,7 +28,7 @@ export default function SurveyDebug() {
   const testSupabaseConnection = async () => {
     try {
       setConnectionStatus('Testing connection...');
-      console.log('Testing Supabase connection...');
+      logger.debug('Testing Supabase connection');
       
       // Test basic connection
       const { data, error } = await supabase
@@ -36,22 +37,22 @@ export default function SurveyDebug() {
         .limit(1);
 
       if (error) {
-        console.error('Supabase connection test failed:', error);
+        logger.error('Supabase connection test failed', { error });
         setConnectionStatus(`❌ Connection failed: ${error.message}`);
         
         // Log detailed error info
-        console.error('Error details:', {
+        logger.error('Supabase error details', {
           message: error.message,
           details: error.details,
           hint: error.hint,
           code: error.code
         });
       } else {
-        console.log('Supabase connection test successful:', data);
+        logger.info('Supabase connection test successful', { data });
         setConnectionStatus('✅ Connection successful');
       }
     } catch (error) {
-      console.error('Supabase connection test error:', error);
+      logger.error('Supabase connection test error', { error });
       setConnectionStatus(`❌ Connection error: ${error}`);
     }
   };
