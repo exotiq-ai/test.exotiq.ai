@@ -1,5 +1,6 @@
 // ElevenLabs ConvAI Script Loader Service
 // Prevents duplicate script loading and custom element definition errors
+import logger from '../utils/logger';
 
 class ElevenLabsLoader {
   private static instance: ElevenLabsLoader;
@@ -52,14 +53,14 @@ class ElevenLabsLoader {
       script.type = 'text/javascript';
       
       script.onload = () => {
-        console.log('ElevenLabs ConvAI script loaded successfully');
+        logger.info('ElevenLabs ConvAI script loaded successfully');
         this.isLoaded = true;
         this.isLoading = false;
         resolve();
       };
       
       script.onerror = (error) => {
-        console.error('Failed to load ElevenLabs ConvAI script:', error);
+        logger.error('Failed to load ElevenLabs ConvAI script', { error });
         this.isLoading = false;
         reject(new Error('Failed to load ElevenLabs ConvAI script'));
       };

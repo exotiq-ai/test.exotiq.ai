@@ -1,3 +1,5 @@
+import logger from '../utils/logger';
+
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
@@ -87,7 +89,7 @@ export class OpenAIService {
 
       return aiResponse;
     } catch (error) {
-      console.error('OpenAI API Error:', error);
+      logger.error('OpenAI API Error', { error, sessionId });
       
       // Fallback to rule-based response
       return this.getFallbackResponse(userMessage, userContext);

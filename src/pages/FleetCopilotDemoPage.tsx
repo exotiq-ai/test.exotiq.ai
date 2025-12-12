@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import { breadcrumbSchema } from '../data/structuredData';
 import { elevenLabsLoader } from '../services/elevenlabsLoader';
+import logger from '../utils/logger';
 
 export default function FleetCopilotDemoPage() {
   const [elevenLabsReady, setElevenLabsReady] = useState(false);
@@ -16,7 +17,7 @@ export default function FleetCopilotDemoPage() {
     elevenLabsLoader.loadScript()
       .then(() => setElevenLabsReady(true))
       .catch(error => {
-        console.error('Failed to load ElevenLabs script:', error);
+        logger.error('Failed to load ElevenLabs script', { error });
       });
   }, []);
 
@@ -113,7 +114,7 @@ export default function FleetCopilotDemoPage() {
               {/* Conversation starters */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
                 <div className="bg-gray-50 dark:bg-dark-700 p-4 rounded-lg border border-gray-200 dark:border-dark-600">
-                  <div className="font-inter font-semibold text-sm text-gray-900 dark:text-white mb-1">💰 Pricing</div>
+                  <div className="font-inter font-semibold text-sm text-gray-900 dark:text-white mb-1">Pricing</div>
                   <div className="font-inter text-xs text-gray-600 dark:text-gray-400">"How should I price my Tesla?"</div>
                 </div>
                 <div className="bg-gray-50 dark:bg-dark-700 p-4 rounded-lg border border-gray-200 dark:border-dark-600">

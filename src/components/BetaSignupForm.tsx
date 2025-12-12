@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, AlertCircle } from 'lucide-react';
+import { CheckCircle, AlertCircle, Check } from 'lucide-react';
 import { useFormSubmission } from '../hooks/useFormSubmission';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -20,12 +20,61 @@ export default function BetaSignupForm() {
     currentPlatform: '',
     challenge: ''
   });
+  const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
+  const [validFields, setValidFields] = useState<{[key: string]: boolean}>({});
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateField = (name: string, value: string) => {
+    let error = '';
+    let isValid = false;
+
+    switch (name) {
+      case 'fullName':
+        if (value.length < 2) {
+          error = 'Name must be at least 2 characters';
+        } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+          error = 'Name should only contain letters';
+        } else {
+          isValid = true;
+        }
+        break;
+      case 'email':
+        if (!validateEmail(value)) {
+          error = 'Please enter a valid email address';
+        } else {
+          isValid = true;
+        }
+        break;
+      case 'fleetSize':
+        isValid = value.length > 0;
+        break;
+    }
+
+    setValidationErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+    setValidFields(prev => ({
+      ...prev,
+      [name]: isValid
+    }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+    
+    // Validate on change for better UX
+    if (value) {
+      validateField(name, value);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,92 +112,167 @@ export default function BetaSignupForm() {
         </div>
       )}
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div className="group">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+        {/* Full Name - Floating Label with Validation */}
+        <div className="relative group">
           <input
             type="text"
             name="fullName"
             value={formData.fullName}
             onChange={handleInputChange}
-            placeholder="Full Name"
-            className="font-inter w-full px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 group-hover:shadow-md text-sm sm:text-base min-h-[48px]"
+            placeholder=" "
+            className={`peer font-inter w-full px-4 pt-6 pb-2 pr-12 rounded-xl bg-white dark:bg-dark-800 text-gray-900 dark:text-white border-2 ${
+              validFields.fullName ? 'border-success-500 dark:border-success-500' :
+              validationErrors.fullName ? 'border-red-500 dark:border-red-500' : 
+              'border-gray-300 dark:border-dark-600'
+            } focus:border-accent-500 dark:focus:border-accent-500 focus:outline-none transition-all duration-250 text-base min-h-[56px]`}
             required
             disabled={isSubmitting}
           />
+          <label 
+            htmlFor="fullName"
+            className="absolute left-4 top-1/2 -translate-y-1/2 font-inter text-gray-500 dark:text-gray-400 transition-all duration-250 pointer-events-none peer-focus:top-3 peer-focus:text-xs peer-focus:text-accent-600 dark:peer-focus:text-accent-400 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-600 dark:peer-[:not(:placeholder-shown)]:text-gray-400"
+          >
+            Full Name
+          </label>
+          {validFields.fullName && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <Check className="w-5 h-5 text-success-500" />
+            </div>
+          )}
+          {validationErrors.fullName && (
+            <p className="absolute -bottom-5 left-0 text-xs text-red-500 dark:text-red-400">{validationErrors.fullName}</p>
+          )}
         </div>
-        <div className="group">
+
+        {/* Email - Floating Label with Validation */}
+        <div className="relative group">
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            placeholder="Email Address"
-            className="font-inter w-full px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 group-hover:shadow-md text-sm sm:text-base min-h-[48px]"
+            placeholder=" "
+            className={`peer font-inter w-full px-4 pt-6 pb-2 pr-12 rounded-xl bg-white dark:bg-dark-800 text-gray-900 dark:text-white border-2 ${
+              validFields.email ? 'border-success-500 dark:border-success-500' :
+              validationErrors.email ? 'border-red-500 dark:border-red-500' : 
+              'border-gray-300 dark:border-dark-600'
+            } focus:border-accent-500 dark:focus:border-accent-500 focus:outline-none transition-all duration-250 text-base min-h-[56px]`}
             required
             disabled={isSubmitting}
           />
+          <label 
+            htmlFor="email"
+            className="absolute left-4 top-1/2 -translate-y-1/2 font-inter text-gray-500 dark:text-gray-400 transition-all duration-250 pointer-events-none peer-focus:top-3 peer-focus:text-xs peer-focus:text-accent-600 dark:peer-focus:text-accent-400 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-600 dark:peer-[:not(:placeholder-shown)]:text-gray-400"
+          >
+            Email Address
+          </label>
+          {validFields.email && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <Check className="w-5 h-5 text-success-500" />
+            </div>
+          )}
+          {validationErrors.email && (
+            <p className="absolute -bottom-5 left-0 text-xs text-red-500 dark:text-red-400">{validationErrors.email}</p>
+          )}
         </div>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div className="group">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+        {/* Fleet Size - Premium Select */}
+        <div className="relative group">
           <select 
             name="fleetSize"
             value={formData.fleetSize}
             onChange={handleInputChange}
-            className="font-inter w-full px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 group-hover:shadow-md text-sm sm:text-base min-h-[48px]"
+            className="font-inter w-full px-4 pt-6 pb-2 rounded-xl bg-white dark:bg-dark-800 text-gray-900 dark:text-white border-2 border-gray-300 dark:border-dark-600 focus:border-accent-500 dark:focus:border-accent-500 focus:outline-none transition-all duration-250 text-base min-h-[56px] appearance-none cursor-pointer"
             required
             disabled={isSubmitting}
           >
-            <option value="">Fleet Size</option>
+            <option value="">Select fleet size</option>
             <option value="1-5">1-5 vehicles</option>
             <option value="6-15">6-15 vehicles</option>
             <option value="16-50">16-50 vehicles</option>
             <option value="50+">50+ vehicles</option>
           </select>
+          <label 
+            className="absolute left-4 top-3 font-inter text-xs text-gray-600 dark:text-gray-400 pointer-events-none"
+          >
+            Fleet Size
+          </label>
+          {/* Custom dropdown arrow */}
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
         </div>
-        <div className="group">
+
+        {/* Current Platform - Floating Label */}
+        <div className="relative group">
           <input
             type="text"
             name="currentPlatform"
             value={formData.currentPlatform}
             onChange={handleInputChange}
-            placeholder="Current Platform (Optional)"
-            className="font-inter w-full px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 group-hover:shadow-md text-sm sm:text-base min-h-[48px]"
+            placeholder=" "
+            className="peer font-inter w-full px-4 pt-6 pb-2 rounded-xl bg-white dark:bg-dark-800 text-gray-900 dark:text-white border-2 border-gray-300 dark:border-dark-600 focus:border-accent-500 dark:focus:border-accent-500 focus:outline-none transition-all duration-250 text-base min-h-[56px]"
             disabled={isSubmitting}
           />
+          <label 
+            htmlFor="currentPlatform"
+            className="absolute left-4 top-1/2 -translate-y-1/2 font-inter text-gray-500 dark:text-gray-400 transition-all duration-250 pointer-events-none peer-focus:top-3 peer-focus:text-xs peer-focus:text-accent-600 dark:peer-focus:text-accent-400 peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-600 dark:peer-[:not(:placeholder-shown)]:text-gray-400"
+          >
+            Current Platform (Optional)
+          </label>
         </div>
       </div>
       
-      <div className="mb-6 group">
+      {/* Challenge - Floating Label Textarea */}
+      <div className="relative mb-8 group">
         <textarea
           name="challenge"
           value={formData.challenge}
           onChange={handleInputChange}
-          placeholder="Tell us about your biggest fleet management challenge..."
+          placeholder=" "
           rows={4}
-          className="font-inter w-full px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-500 transition-all duration-200 group-hover:shadow-md resize-none text-sm sm:text-base"
+          className="peer font-inter w-full px-4 pt-6 pb-3 rounded-xl bg-white dark:bg-dark-800 text-gray-900 dark:text-white border-2 border-gray-300 dark:border-dark-600 focus:border-accent-500 dark:focus:border-accent-500 focus:outline-none transition-all duration-250 resize-none text-base"
           disabled={isSubmitting}
         />
+        <label 
+          htmlFor="challenge"
+          className="absolute left-4 top-3 font-inter text-xs text-gray-600 dark:text-gray-400 transition-all duration-250 pointer-events-none peer-focus:text-accent-600 dark:peer-focus:text-accent-400"
+        >
+          Your Biggest Challenge (Optional)
+        </label>
       </div>
       
+      {/* Premium Submit Button */}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="font-poppins font-bold text-xs sm:text-sm uppercase tracking-wide px-6 sm:px-8 py-4 bg-accent-600 hover:bg-accent-700 disabled:bg-accent-400 text-white rounded-lg transition-all duration-200 hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex items-center space-x-2 mx-auto min-h-[48px] w-full sm:w-auto justify-center touch-manipulation"
+        className="group relative w-full font-inter font-semibold text-base px-8 py-4 bg-accent-600 hover:bg-accent-700 disabled:bg-accent-400 text-white rounded-xl transition-all duration-250 hover:scale-[1.02] active:scale-[0.98] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center space-x-2.5 min-h-[56px] shadow-xl hover:shadow-2xl overflow-hidden"
       >
-        {isSubmitting ? (
-          <>
-            <LoadingSpinner size="sm" color="white" />
-            <span>Securing Your Spot...</span>
-          </>
-        ) : (
-          <>
-            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5" />
-            <span>Secure My Beta Spot</span>
-          </>
-        )}
+        <span className="absolute inset-0 bg-white/20 scale-0 group-active:scale-100 transition-transform duration-500 rounded-xl"></span>
+        <span className="relative z-10 flex items-center space-x-2.5">
+          {isSubmitting ? (
+            <>
+              <LoadingSpinner size="sm" color="white" variant="dots" />
+              <span>Securing Your Spot...</span>
+            </>
+          ) : (
+            <>
+              <CheckCircle className="w-5 h-5 transition-transform duration-250 group-hover:scale-110" />
+              <span>Secure My Beta Spot</span>
+            </>
+          )}
+        </span>
       </button>
+      
+      {/* Social Proof Below Form */}
+      <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 font-inter">
+        Join <span className="font-semibold text-accent-600 dark:text-accent-400">79+ operators</span> already in our exclusive beta
+      </p>
     </form>
   );
 }

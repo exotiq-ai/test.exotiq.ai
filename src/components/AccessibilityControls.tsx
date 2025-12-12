@@ -30,17 +30,17 @@ const AccessibilityControls: React.FC = () => {
         <Settings className="w-6 h-6" />
       </button>
 
-      {/* Accessibility panel */}
+      {/* Accessibility panel - Now works on all devices */}
       {isOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
+        <div className="fixed inset-0 z-40">
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           />
           
-          {/* Panel */}
-          <div className="fixed bottom-20 right-4 w-80 bg-white dark:bg-dark-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-dark-700 overflow-hidden">
+          {/* Panel - Responsive positioning */}
+          <div className="fixed bottom-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white dark:bg-dark-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-dark-700 overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-dark-700">
               <h3 className="font-space font-bold text-lg text-gray-900 dark:text-white">
@@ -150,10 +150,10 @@ const AccessibilityControls: React.FC = () => {
                   Keyboard Shortcuts
                 </h4>
                 <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + H</kbd> Go to Home</p>
-                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + F</kbd> Go to Features</p>
-                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + A</kbd> Go to About</p>
-                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + C</kbd> Go to Contact</p>
+                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + Shift + H</kbd> Go to Home</p>
+                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + Shift + F</kbd> Go to Features</p>
+                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + Shift + A</kbd> Go to About</p>
+                  <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Ctrl/Cmd + Shift + C</kbd> Go to Contact</p>
                   <p>• <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-dark-700 rounded text-xs">Escape</kbd> Close modals</p>
                 </div>
               </div>

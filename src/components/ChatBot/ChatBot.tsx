@@ -20,6 +20,7 @@ import {
 import { openAIService } from '../../services/openai';
 import { analyticsService } from '../../services/analytics';
 import { persistenceService } from '../../services/persistence';
+import logger from '../../utils/logger';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
 
@@ -296,7 +297,7 @@ export default function FleetCopilot({ isOpen, onToggle, sessionId, isReturningU
       updateConversationFlow(userMessage, aiResponse);
 
     } catch (error) {
-      console.error('Error getting AI response:', error);
+      logger.error('Error getting AI response', { error });
       setIsTyping(false);
       
       // Fallback response
@@ -360,8 +361,8 @@ export default function FleetCopilot({ isOpen, onToggle, sessionId, isReturningU
       setTimeout(() => {
         addBotMessage("Based on our conversation, Exotiq sounds like a perfect fit for your operation! Ready to see how we can help you scale?", {
           buttons: [
-            { text: "📅 Quick 15-min Chat", action: "calendar", url: "https://calendly.com/hello-exotiq/15-minute-meeting" },
-            { text: "🚀 30-min Strategy Call", action: "calendar", url: "https://calendly.com/hello-exotiq/30min" }
+            { text: "Quick 15-min Chat", action: "calendar", url: "https://calendly.com/hello-exotiq/15-minute-meeting" },
+            { text: "30-min Strategy Call", action: "calendar", url: "https://calendly.com/hello-exotiq/30min" }
           ]
         });
       }, 2000);
@@ -381,10 +382,10 @@ export default function FleetCopilot({ isOpen, onToggle, sessionId, isReturningU
 
     switch (action) {
       case 'calendar':
-        addBotMessage("Perfect! I've opened our calendar in a new tab. Choose a time that works best for you - looking forward to our conversation! 📅");
+        addBotMessage("Perfect! I've opened our calendar in a new tab. Choose a time that works best for you - looking forward to our conversation!");
         break;
       case 'beta':
-        addBotMessage("Excellent! I've added you to our priority beta list. You'll be among the first to get access when we launch! 🚀");
+        addBotMessage("Excellent! I've added you to our priority beta list. You'll be among the first to get access when we launch!");
         break;
       case 'features':
         addBotMessage("You can explore our platform features on the main site. What specific aspect of fleet management interests you most?");

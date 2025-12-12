@@ -1,4 +1,5 @@
 // Analytics service for tracking chatbot interactions and conversions
+import logger from '../utils/logger';
 
 export interface AnalyticsEvent {
   event: string;
@@ -47,7 +48,7 @@ class AnalyticsService {
         this.cookiePreferences = JSON.parse(saved);
       }
     } catch (error) {
-      console.warn('Failed to load cookie preferences:', error);
+      logger.warn('Failed to load cookie preferences', { error });
     }
   }
 
@@ -86,7 +87,7 @@ class AnalyticsService {
     // Store in localStorage for persistence
     this.persistEvent(analyticsEvent);
     
-    console.log('Analytics Event:', analyticsEvent);
+    logger.debug('Analytics Event tracked', { event: analyticsEvent.event, sessionId, properties });
   }
 
   // Conversation-specific tracking
@@ -234,7 +235,7 @@ class AnalyticsService {
     // Marketing tracking (only if marketing cookies are enabled)
     if (this.canTrackMarketing()) {
       // Facebook Pixel, LinkedIn Insight Tag, etc.
-      console.log('Marketing tracking enabled for event:', event.event);
+      logger.debug('Marketing tracking enabled for event', { event: event.event });
     }
   }
 
@@ -251,7 +252,7 @@ class AnalyticsService {
       
       localStorage.setItem('exotiq_analytics_events', JSON.stringify(events));
     } catch (error) {
-      console.warn('Failed to persist analytics event:', error);
+      logger.warn('Failed to persist analytics event', { error });
     }
   }
 
@@ -379,7 +380,7 @@ export const PerformanceMonitor = {
         navigationObserver.observe({ entryTypes: ['navigation'] });
 
       } catch (error) {
-        console.warn('Performance monitoring failed:', error);
+        logger.warn('Performance monitoring failed', { error });
       }
     }
   },
@@ -406,12 +407,10 @@ export const PerformanceMonitor = {
       
       localStorage.setItem('exotiq_performance_metrics', JSON.stringify(metrics));
       
-      // Log to console in development
-      if (import.meta.env.DEV) {
-        console.log(`📊 Performance Metric - ${name}:`, value);
-      }
+      // Log performance metrics
+      logger.performance(name, value);
     } catch (error) {
-      console.warn('Failed to track performance metric:', error);
+      logger.warn('Failed to track performance metric', { error, metricName: name });
     }
   },
 
@@ -437,7 +436,7 @@ export const PerformanceMonitor = {
       
       return summary;
     } catch (error) {
-      console.warn('Failed to get performance summary:', error);
+      logger.warn('Failed to get performance summary', { error });
       return null;
     }
   },

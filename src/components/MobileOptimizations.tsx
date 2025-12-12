@@ -61,15 +61,15 @@ export const MobileCard = ({ children, className = '' }: { children: React.React
   </div>
 );
 
-export const MobileSection = ({ 
-  children, 
-  className = '',
-  padding = 'default'
-}: { 
+export const MobileSection = React.forwardRef<HTMLElement, { 
   children: React.ReactNode; 
   className?: string;
   padding?: 'none' | 'sm' | 'default' | 'lg';
-}) => {
+}>(({ 
+  children, 
+  className = '',
+  padding = 'default'
+}, ref) => {
   const paddingClasses = {
     none: '',
     sm: 'py-8 sm:py-12',
@@ -78,8 +78,8 @@ export const MobileSection = ({
   };
   
   return (
-    <section className={`${paddingClasses[padding]} ${className}`}>
+    <section ref={ref} className={`${paddingClasses[padding]} ${className}`}>
       {children}
     </section>
   );
-};
+});

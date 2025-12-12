@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun, Brain } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import MobileNavigation from './MobileNavigation';
 import ThemeAwareLogo from './ThemeAwareLogo';
+import { useStickyHeader } from '../hooks/useScrollAnimation';
+import ScrollProgressIndicator from './ScrollProgressIndicator';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const { isSticky } = useStickyHeader(50);
 
   const navigation = [
     { name: 'Platform', href: '/features' },
     { name: 'About', href: '/about' },
     { name: 'Survey', href: '/survey' },
-    { name: 'Invest', href: '/investors' },
+    { name: 'Investors', href: '/investors' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -31,53 +34,72 @@ export default function Header() {
 
   return (
     <>
+      <ScrollProgressIndicator />
+      
       {/* Mobile Navigation Component */}
       <MobileNavigation />
       
-      {/* Desktop Header */}
-      <header className="fixed w-full top-0 z-50 bg-white/80 dark:bg-dark-900/80 backdrop-blur-md border-b border-gray-200 dark:border-dark-700 hidden lg:block">
+      {/* Desktop Header - Premium Polish */}
+      <header 
+        className={`fixed w-full top-0 z-50 backdrop-blur-xl hidden lg:block transition-all duration-500 ease-out ${
+          isSticky 
+            ? 'bg-white/95 dark:bg-dark-black/95 shadow-xl border-b border-gray-200/50 dark:border-white/10' 
+            : 'bg-white/90 dark:bg-dark-black/90 border-b border-gray-200/30 dark:border-white/5'
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className={`flex justify-between items-center transition-all duration-500 ease-out ${isSticky ? 'h-14' : 'h-16'}`}>
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 group">
               <ThemeAwareLogo size="header" />
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Premium Interactions */}
             <nav className="flex items-center space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`font-inter font-medium transition-colors ${
+                  className={`relative font-inter font-medium transition-all duration-250 ease-out group py-2 ${
                     isActive(item.href)
                       ? 'text-primary-600 dark:text-primary-400'
-                      : 'text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400'
+                      : 'text-gray-700 hover:text-primary-600 dark:text-gray-200 dark:hover:text-primary-400'
                   }`}
                 >
-                  {item.name}
+                  <span className="relative z-10 transition-transform duration-250 inline-block group-hover:-translate-y-0.5">
+                    {item.name}
+                  </span>
+                  {/* Sophisticated underline animation */}
+                  <span 
+                    className={`absolute bottom-0 left-0 h-0.5 rounded-full bg-gradient-to-r from-primary-600 to-primary-500 dark:from-primary-400 dark:to-primary-300 transition-all duration-300 ease-out ${
+                      isActive(item.href) ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'
+                    }`}
+                  />
+                  {/* Subtle hover background */}
+                  <span className="absolute inset-0 -inset-x-2 bg-gray-100/50 dark:bg-white/5 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-250 ease-out -z-10"></span>
                 </Link>
               ))}
             </nav>
 
-            {/* Theme Toggle & CTA */}
+            {/* Theme Toggle & CTA - Premium Style */}
             <div className="flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-dark-800 hover:bg-gray-200 dark:hover:bg-dark-700 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="group p-2.5 rounded-xl bg-gray-100 dark:bg-dark-800 hover:bg-gray-200 dark:hover:bg-dark-700 transition-all duration-250 min-h-[44px] min-w-[44px] flex items-center justify-center hover:scale-105 active:scale-95"
                 aria-label="Toggle theme"
               >
                 {theme === 'light' ? (
-                  <Moon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  <Moon className="w-5 h-5 text-gray-700 dark:text-gray-200 transition-transform duration-250 group-hover:rotate-12" />
                 ) : (
-                  <Sun className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  <Sun className="w-5 h-5 text-gray-700 dark:text-gray-200 transition-transform duration-250 group-hover:rotate-12" />
                 )}
               </button>
               <button
                 onClick={scrollToBeta}
-                className="font-poppins font-bold text-sm uppercase tracking-wide px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-all duration-200 hover:scale-105 min-h-[44px] flex items-center justify-center"
+                className="group relative font-inter font-semibold text-sm px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl transition-all duration-250 hover:scale-[1.02] active:scale-[0.98] min-h-[44px] flex items-center justify-center shadow-lg hover:shadow-xl overflow-hidden"
               >
-                Join Beta
+                <span className="absolute inset-0 bg-white/20 scale-0 group-active:scale-100 transition-transform duration-500 rounded-xl"></span>
+                <span className="relative z-10">Join Beta</span>
               </button>
             </div>
           </div>

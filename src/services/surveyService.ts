@@ -1,5 +1,6 @@
 // Survey service for handling survey submissions
 import { submitSurveyToSupabase, SurveySubmission as SupabaseSubmission } from './supabaseClient';
+import logger from '../utils/logger';
 
 export interface SurveySubmission {
   surveyType: string;
@@ -16,9 +17,9 @@ export class SurveyService {
       const submissions = this.getLocalSubmissions();
       submissions.push(data);
       localStorage.setItem('survey_submissions', JSON.stringify(submissions));
-      console.log('Survey saved to localStorage:', data);
+      logger.debug('Survey saved to localStorage', { sessionId: data.sessionId });
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      logger.error('Error saving to localStorage', { error });
     }
   }
 
@@ -28,7 +29,7 @@ export class SurveyService {
       const stored = localStorage.getItem('survey_submissions');
       return stored ? JSON.parse(stored) : [];
     } catch (error) {
-      console.error('Error reading from localStorage:', error);
+      logger.error('Error reading from localStorage', { error });
       return [];
     }
   }
@@ -42,10 +43,10 @@ export class SurveyService {
           'Content-Type': 'application/json',
         }
       });
-      console.log('Backend connection test response:', response.status);
+      logger.debug('Backend connection test response', { status: response.status });
       return response.status === 200 || response.status === 404; // 404 means endpoint exists but method not allowed
     } catch (error) {
-      console.error('Backend connection test failed:', error);
+      logger.error('Backend connection test failed', { error });
       return false;
     }
   }
@@ -53,7 +54,7 @@ export class SurveyService {
   // Submit to backend (when available)
   static async submitToBackend(data: SurveySubmission): Promise<boolean> {
     try {
-      console.log('Attempting to submit to backend:', data);
+      logger.debug('Attempting to submit to backend', { sessionId: data.sessionId });
       
       const response = await fetch('/api/survey-submission', {
         method: 'POST',
@@ -63,35 +64,40 @@ export class SurveyService {
         body: JSON.stringify(data)
       });
 
-      console.log('Backend response status:', response.status);
-      console.log('Backend response headers:', Object.fromEntries(response.headers.entries()));
+      logger.debug('Backend response', { 
+        status: response.status, 
+        headers: Object.fromEntries(response.headers.entries()) 
+      });
 
       if (response.ok) {
         const result = await response.json();
-        console.log('Backend submission successful:', result);
+        logger.info('Backend submission successful', { result, sessionId: data.sessionId });
         return true;
       } else {
         const errorText = await response.text();
-        console.error('Backend submission failed:', response.status, response.statusText, errorText);
+        logger.error('Backend submission failed', { 
+          status: response.status, 
+          statusText: response.statusText, 
+          errorText,
+          sessionId: data.sessionId
+        });
         return false;
       }
     } catch (error) {
-      console.error('Backend submission error:', error);
+      logger.error('Backend submission error', { error, sessionId: data.sessionId });
       return false;
     }
   }
 
   // Submit survey (tries Supabase directly, falls back to localStorage)
   static async submitSurvey(data: SurveySubmission): Promise<boolean> {
-    console.log('=== SURVEY SUBMISSION DEBUG ===');
-    console.log('1. Starting survey submission...');
+    logger.debug('Starting survey submission', { sessionId: data.sessionId, surveyType: data.surveyType });
     
     // Always save to localStorage for debugging
     this.saveToLocalStorage(data);
-    console.log('2. Survey saved to localStorage');
+    logger.debug('Survey saved to localStorage', { sessionId: data.sessionId });
 
     try {
-      console.log('3. Preparing Supabase data...');
       // Try to submit directly to Supabase
       const supabaseData: SupabaseSubmission = {
         survey_type: data.surveyType,
@@ -102,15 +108,13 @@ export class SurveyService {
         ip_address: 'unknown' // We can't get IP from client-side
       };
 
-      console.log('4. Supabase data prepared:', supabaseData);
-      console.log('5. Attempting to submit to Supabase...');
+      logger.debug('Preparing Supabase submission', { supabaseData });
       
       await submitSurveyToSupabase(supabaseData);
-      console.log('6. ✅ Survey submitted to Supabase successfully');
+      logger.info('Survey submitted to Supabase successfully', { sessionId: data.sessionId });
       return true;
     } catch (error) {
-      console.error('❌ Supabase submission failed:', error);
-      console.log('7. Survey saved to localStorage only');
+      logger.warn('Supabase submission failed, using localStorage only', { error, sessionId: data.sessionId });
       return true; // Still return true since we saved locally
     }
   }
@@ -123,6 +127,6 @@ export class SurveyService {
   // Clear local submissions (for testing)
   static clearLocalSubmissions(): void {
     localStorage.removeItem('survey_submissions');
-    console.log('Local survey submissions cleared');
+    logger.info('Local survey submissions cleared');
   }
 } 

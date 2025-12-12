@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import logger from '../utils/logger';
 
 // You'll need to replace these with your actual Supabase credentials
 // Find these in your Supabase project settings > API
@@ -20,9 +21,7 @@ export interface SurveySubmission {
 // Function to submit survey directly to Supabase
 export async function submitSurveyToSupabase(data: SurveySubmission) {
   try {
-    console.log('🔗 Supabase client - Starting submission...');
-    console.log('🔗 Supabase URL:', supabaseUrl);
-    console.log('🔗 Supabase data to insert:', data);
+    logger.debug('Supabase client - Starting submission', { url: supabaseUrl, data });
     
     const { data: result, error } = await supabase
       .from('survey_submissions')
@@ -30,8 +29,7 @@ export async function submitSurveyToSupabase(data: SurveySubmission) {
       .select();
 
     if (error) {
-      console.error('❌ Supabase error:', error);
-      console.error('❌ Error details:', {
+      logger.error('Supabase error', {
         message: error.message,
         details: error.details,
         hint: error.hint,
@@ -40,10 +38,10 @@ export async function submitSurveyToSupabase(data: SurveySubmission) {
       throw error;
     }
 
-    console.log('✅ Survey submitted to Supabase successfully:', result);
+    logger.info('Survey submitted to Supabase successfully', { result });
     return result;
   } catch (error) {
-    console.error('❌ Failed to submit to Supabase:', error);
+    logger.error('Failed to submit to Supabase', { error });
     throw error;
   }
 }
@@ -57,13 +55,13 @@ export async function getSurveySubmissions() {
       .order('submitted_at', { ascending: false });
 
     if (error) {
-      console.error('Supabase error:', error);
+      logger.error('Supabase error', { error });
       throw error;
     }
 
     return data;
   } catch (error) {
-    console.error('Failed to get survey submissions:', error);
+    logger.error('Failed to get survey submissions', { error });
     throw error;
   }
 } 

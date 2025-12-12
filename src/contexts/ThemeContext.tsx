@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import logger from '../utils/logger';
 
 type Theme = 'light' | 'dark';
 
@@ -17,7 +18,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (saved) return saved;
     } catch (error) {
       // localStorage blocked, fall back to system preference
-      console.warn('localStorage blocked, using system preference');
+      logger.warn('localStorage blocked, using system preference');
     }
     
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -28,7 +29,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('theme', theme);
     } catch (error) {
       // localStorage blocked, continue without saving
-      console.warn('localStorage blocked, theme preference not saved');
+      logger.warn('localStorage blocked, theme preference not saved');
     }
     
     if (theme === 'dark') {

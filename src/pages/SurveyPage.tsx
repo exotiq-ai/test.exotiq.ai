@@ -5,6 +5,7 @@ import SEOHead from '../components/SEOHead';
 import { breadcrumbSchema } from '../data/structuredData';
 import { surveys, SurveyData, SurveyQuestion } from '../data/surveyData';
 import { SurveyService } from '../services/surveyService';
+import logger from '../utils/logger';
 import SurveyDebug from '../components/SurveyDebug';
 
 // Lazy load heavy components and icons
@@ -61,13 +62,13 @@ export default function SurveyPage() {
         sessionId: sessionStorage.getItem('exotiq_session_id') || 'unknown'
       };
 
-      console.log('Submitting survey data:', surveyData);
+      logger.debug('Submitting survey data', { surveyType, responseCount: Object.keys(responses).length });
 
       // Use the survey service to handle submission
       const success = await SurveyService.submitSurvey(surveyData);
       
       if (success) {
-        console.log('Survey submitted successfully');
+        logger.info('Survey submitted successfully', { surveyType });
         
         // Track analytics if available
         if (window.gtag) {
@@ -78,7 +79,7 @@ export default function SurveyPage() {
         }
       }
     } catch (error) {
-      console.error('Error submitting survey:', error);
+      logger.error('Error submitting survey', { error });
       // Still show success to user even if submission fails
     }
     
@@ -119,28 +120,35 @@ export default function SurveyPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Object.entries(surveys).map(([key, survey]) => (
               <Link
                 key={key}
                 to={`/survey?type=${key}`}
-                className="group bg-white dark:bg-dark-800 p-4 sm:p-6 rounded-xl border border-gray-200 dark:border-dark-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all duration-200 hover:shadow-lg hover:scale-105"
+                className="group bg-white dark:bg-dark-800 p-8 rounded-2xl border border-gray-200 dark:border-dark-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all duration-200 hover:shadow-xl hover:scale-[1.02] flex flex-col"
               >
-                <div className="text-center">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-200">
-                    <Suspense fallback={<div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded animate-pulse" />}>
+                <div className="text-center flex-1 flex flex-col">
+                  {/* Consistent 64x64px icon container */}
+                  <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-200 flex-shrink-0">
+                    <Suspense fallback={<div className="w-8 h-8 bg-gray-300 rounded animate-pulse" />}>
                       <SurveyIcons type={key} />
                     </Suspense>
                   </div>
-                  <h3 className="font-space font-bold text-lg sm:text-xl text-gray-900 dark:text-white mb-2 leading-tight">
+                  
+                  {/* Consistent h3 hierarchy */}
+                  <h3 className="font-space font-bold text-xl text-gray-900 dark:text-white mb-3 leading-tight">
                     {survey.title}
                   </h3>
-                  <p className="font-inter text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 leading-relaxed">
+                  
+                  {/* Description with consistent spacing */}
+                  <p className="font-inter text-base text-gray-600 dark:text-gray-300 mb-6 leading-relaxed flex-1">
                     {survey.description}
                   </p>
-                  <div className="flex items-center justify-center text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300">
-                    <span className="font-medium text-sm sm:text-base">Start Survey</span>
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  
+                  {/* CTA with consistent sizing */}
+                  <div className="flex items-center justify-center text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 font-semibold">
+                    <span className="text-base">Start Survey</span>
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>

@@ -3,6 +3,7 @@ import { Bot, CheckCircle, XCircle, AlertTriangle, Loader, MessageSquare, Zap, B
 import { openAIService } from '../../services/openai';
 import { analyticsService } from '../../services/analytics';
 import { persistenceService } from '../../services/persistence';
+import logger from '../../utils/logger';
 
 interface TestResult {
   name: string;
@@ -118,7 +119,7 @@ export default function ChatBotTest() {
       }
 
     } catch (error) {
-      console.error('Test execution failed:', error);
+      logger.error('Test execution failed', { error });
       setOverallStatus('error');
     } finally {
       setIsRunning(false);

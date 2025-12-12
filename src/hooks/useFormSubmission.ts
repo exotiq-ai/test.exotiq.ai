@@ -46,7 +46,7 @@ export function useFormSubmission() {
         throw new Error(result.error || 'Failed to submit form');
       }
       
-      console.log('Form submitted successfully:', result);
+      logger.info('Form submitted successfully', { formType, result });
       
       // Track analytics events
       if (formType === 'beta') {
@@ -63,7 +63,7 @@ export function useFormSubmission() {
       }, 5000);
       
     } catch (error) {
-      console.error('Form submission error:', error);
+      logger.error('Form submission error', { error, formType });
       setState({ 
         isSubmitting: false, 
         isSubmitted: false, 
