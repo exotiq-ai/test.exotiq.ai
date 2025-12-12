@@ -209,38 +209,45 @@ export default function InvestorPage() {
           </div>
         </section>
 
-        {/* Executive Summary */}
+        {/* Executive Summary - Simplified */}
         <section className="py-20 bg-gray-50 dark:bg-dark-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="font-space font-bold text-4xl text-gray-900 dark:text-white mb-4">
-                Investment Opportunity
+              <h2 className="font-space font-bold text-4xl text-gray-900 dark:text-white mb-6">
+                Why Exotiq
               </h2>
-              <p className="font-inter text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Exotiq is raising $1.5M to capture a dominant position in the $11B+ vehicle rental management market, starting with the fastest-growing segment: peer-to-peer car sharing.
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
-                <div className="text-4xl font-space font-bold text-accent-600 mb-2">$1.5M</div>
-                <div className="font-inter text-gray-600 dark:text-gray-400">Fundraising Goal</div>
+            <div className="space-y-6">
+              <div className="bg-white dark:bg-dark-700 p-8 rounded-xl border-l-4 border-primary-600">
+                <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-3">
+                  Real Traction
+                </h3>
+                <p className="font-inter text-lg text-gray-700 dark:text-gray-200">
+                  20+ operators already using the platform. $12K MRR from beta customers. 85% activation rate—nearly 3x industry average.
+                </p>
               </div>
-              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
-                <div className="text-4xl font-space font-bold text-accent-600 mb-2">$2.8B</div>
-                <div className="font-inter text-gray-600 dark:text-gray-400">Market by 2027</div>
+
+              <div className="bg-white dark:bg-dark-700 p-8 rounded-xl border-l-4 border-accent-600">
+                <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-3">
+                  Proven ROI
+                </h3>
+                <p className="font-inter text-lg text-gray-700 dark:text-gray-200">
+                  Operators save 15+ hours per week and increase revenue by 15-25% through automated pricing and operations.
+                </p>
               </div>
-              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
-                <div className="text-4xl font-space font-bold text-accent-600 mb-2">40%</div>
-                <div className="font-inter text-gray-600 dark:text-gray-400">YoY Growth</div>
-              </div>
-              <div className="text-center bg-white dark:bg-dark-700 p-6 rounded-xl">
-                <div className="text-4xl font-space font-bold text-accent-600 mb-2">100K+</div>
-                <div className="font-inter text-gray-600 dark:text-gray-400">Target Hosts</div>
+
+              <div className="bg-white dark:bg-dark-700 p-8 rounded-xl border-l-4 border-success-600">
+                <h3 className="font-space font-bold text-2xl text-gray-900 dark:text-white mb-3">
+                  Built Different
+                </h3>
+                <p className="font-inter text-lg text-gray-700 dark:text-gray-200">
+                  Founded by former Turo hosts who scaled from 2 to 30 vehicles. We've lived the pain and built the solution.
+                </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white dark:bg-dark-700 p-6 rounded-xl">
                 <div className="flex items-center justify-center w-12 h-12 bg-primary-600 rounded-lg mb-4">
                   <TrendingUp className="w-6 h-6 text-white" />
@@ -492,61 +499,74 @@ export default function InvestorPage() {
                   You'll receive an email verification link to unlock the portal.
                 </p>
                 
-                <form onSubmit={handleFormSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4" autoComplete="on">
+                  {/* Name & Email Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label htmlFor="firstName" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
                         Full Name *
                       </label>
                       <input
                         type="text"
+                        id="firstName"
                         name="firstName"
+                        autoComplete="name"
                         value={formData.firstName}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        placeholder="John Smith"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
                       />
                     </div>
                     <div>
-                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Email Address *
+                      <label htmlFor="email" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
+                        Email *
                       </label>
                       <input
                         type="email"
+                        id="email"
                         name="email"
+                        autoComplete="email"
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        placeholder="john@company.com"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
                       />
                     </div>
                   </div>
 
+                  {/* Company */}
                   <div>
-                    <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="companyName" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
                       Company/Fund Name *
                     </label>
                     <input
                       type="text"
+                      id="companyName"
                       name="companyName"
+                      autoComplete="organization"
                       value={formData.companyName}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                      placeholder="Acme Ventures"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Investment Range & Type */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label htmlFor="investmentAmountRange" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
                         Investment Range *
                       </label>
                       <select
+                        id="investmentAmountRange"
                         name="investmentAmountRange"
                         value={formData.investmentAmountRange}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
                       >
                         <option value="">Select range</option>
                         <option value="25k-100k">$25K - $100K</option>
@@ -556,15 +576,16 @@ export default function InvestorPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label htmlFor="investmentType" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
                         Investor Type *
                       </label>
                       <select
+                        id="investmentType"
                         name="investmentType"
                         value={formData.investmentType}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
                       >
                         <option value="">Select type</option>
                         <option value="angel">Angel Investor</option>
@@ -576,76 +597,41 @@ export default function InvestorPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Automotive/SaaS Experience *
-                    </label>
-                    <select
-                      name="industryExperience"
-                      value={formData.industryExperience}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
-                    >
-                      <option value="">Select experience</option>
-                      <option value="automotive-focused">Automotive Industry Focused</option>
-                      <option value="saas-focused">SaaS/Tech Focused</option>
-                      <option value="both">Both Automotive & SaaS</option>
-                      <option value="marketplace">Marketplace/Platform Experience</option>
-                      <option value="other">Other Industry Focus</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Investment Timeline *
-                    </label>
-                    <select
-                      name="investmentTimeline"
-                      value={formData.investmentTimeline}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="immediate">Ready to invest now</option>
-                      <option value="30-days">Within 30 days</option>
-                      <option value="90-days">Within 90 days</option>
-                      <option value="exploring">Currently exploring</option>
-                    </select>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Timeline & Phone */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label htmlFor="investmentTimeline" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
+                        Investment Timeline *
+                      </label>
+                      <select
+                        id="investmentTimeline"
+                        name="investmentTimeline"
+                        value={formData.investmentTimeline}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
+                      >
+                        <option value="">Select timeline</option>
+                        <option value="immediate">Ready to invest now</option>
+                        <option value="30-days">Within 30 days</option>
+                        <option value="90-days">Within 90 days</option>
+                        <option value="exploring">Currently exploring</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-1.5 text-sm">
                         Phone Number
                       </label>
                       <input
                         type="tel"
+                        id="phone"
                         name="phone"
+                        autoComplete="tel"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
                         placeholder="+1 (555) 123-4567"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-base"
                       />
-                    </div>
-                    <div>
-                      <label className="block font-inter font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Preferred Contact Method *
-                      </label>
-                      <select
-                        name="contactPreference"
-                        value={formData.contactPreference}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
-                      >
-                        <option value="">Select preference</option>
-                        <option value="email">Email</option>
-                        <option value="phone">Phone</option>
-                        <option value="linkedin">LinkedIn</option>
-                        <option value="other">Other</option>
-                      </select>
                     </div>
                   </div>
 
